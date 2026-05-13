@@ -1,6 +1,5 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
-import { FadeUp } from "../ui/FadeUp";
 import { Counter } from "../ui/Counter";
 
 interface MaterialProps {

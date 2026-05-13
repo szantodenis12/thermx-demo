@@ -1,5 +1,3 @@
-import { motion } from "framer-motion";
-
 const CERTS = [
   {
     tag: "ISO_9001",

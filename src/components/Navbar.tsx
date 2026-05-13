@@ -8,7 +8,6 @@ export const Navbar = () => {
 
   // Adapt colors to theme
   const logoColor = useTransform(activeProgress, [0, 1], ['#FFFFFF', '#0A0A0A']);
-  const linkColor = useTransform(activeProgress, [0, 1], ['rgba(156,163,175,1)', 'rgba(75,85,99,1)']);
   const btnBorderColor = useTransform(activeProgress, [0, 1], ['rgba(255,69,0,0.3)', 'rgba(255,69,0,0.5)']);
   const btnBg = useTransform(activeProgress, [0, 1], ['transparent', 'rgba(255,69,0,0.06)']);
 

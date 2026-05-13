@@ -1,4 +1,3 @@
-import { FadeUp } from "../ui/FadeUp";
 import { Counter } from "../ui/Counter";
 
 export function Specifications() {

@@ -1,5 +1,4 @@
 import { motion, MotionValue, useTransform } from 'framer-motion';
-import { ChevronDown } from 'lucide-react';
 
 export function HookHero({ smoothProgress }: { smoothProgress: MotionValue<number> }) {
   const opacity = useTransform(smoothProgress, [0, 0.08], [1, 0]);

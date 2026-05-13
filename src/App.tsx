@@ -35,7 +35,7 @@ function App() {
   const p2 = useTransform(contactProgress, [0, 0.2, 1], [0, 1, 1]);
   
   // Combine both progresses so that either one makes the theme light
-  const combinedProgress = useTransform([p1, p2], ([v1, v2]) => Math.max(v1, v2));
+  const combinedProgress = useTransform([p1, p2], ([v1, v2]) => Math.max(v1 as number, v2 as number));
 
   // Smooth it with spring physics for that buttery feel
   const themeProgress = useSpring(

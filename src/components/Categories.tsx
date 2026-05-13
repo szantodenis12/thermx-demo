@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Home, HardHat, Ruler, Factory, ArrowLeft, CheckCircle2, AlertTriangle, Zap, Shield, Sparkles } from 'lucide-react';
+import { Home, HardHat, Ruler, Factory, ArrowLeft, AlertTriangle, Zap, Shield, Sparkles } from 'lucide-react';
 
 // ═══════════════════════════════════════════════════
 // CATEGORIES SECTION (Buttons to Landing Pages)

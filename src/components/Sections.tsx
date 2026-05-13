@@ -1,5 +1,5 @@
 import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
-import { useRef, ReactNode, useEffect } from 'react';
+import { useRef, type ReactNode, useEffect } from 'react';
 import { useScrollCtx } from '../App';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -193,7 +193,7 @@ export const ProductSection = () => {
           >
             <motion.p className="text-lg md:text-xl leading-relaxed max-w-3xl font-sans font-light" style={{ color: subtextColor }}>
               Se usucă și formează un strat continuu, fără rosturi — acoperind inclusiv geometrii complexe unde izolația clasică nu ajunge. Blochează toate cele trei mecanisme de transfer termic:
-              <span className="font-medium" style={{ color: textColor }}> conducție, convecție și radiație infraroșie</span>.
+              <motion.span className="font-medium" style={{ color: textColor }}> conducție, convecție și radiație infraroșie</motion.span>.
               Rezultatul: performanță de izolație comparabilă cu 8–10 cm de polistiren, într-un singur milimetru.
             </motion.p>
           </div>
@@ -208,7 +208,7 @@ export const ProductSection = () => {
                 { value: "40%", label: "Economie energie", desc: "Membrana reflectă 85% din radiația infraroșie și elimină punțile termice." },
                 { value: "80%", label: "Timp mai scurt", desc: "O casă de 150 m² se finalizează în 2–3 zile cu 1–2 operatori." },
                 { value: "30%", label: "Cost mai mic", desc: "Fără schelă, fără ancore mecanice, fără profil de pornire." },
-              ].map((stat, i) => (
+              ].map((stat) => (
                 <motion.div
                   key={stat.value}
                   className="group relative p-8 rounded-2xl transition-all duration-500 cursor-default backdrop-blur-md"
@@ -312,7 +312,7 @@ export const ScienceSection = () => {
           </FadeReveal>
 
           <div className="relative h-[400px] mt-12">
-            {mechanisms.map((mech, i) => (
+            {mechanisms.map((mech) => (
               <div
                 key={mech.title}
                 className="mech-row absolute inset-0 flex flex-col md:flex-row items-center justify-between gap-12"

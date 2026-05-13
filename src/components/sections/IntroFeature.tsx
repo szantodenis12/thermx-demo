@@ -1,5 +1,3 @@
-import { motion } from "framer-motion";
-
 export function IntroFeature() {
   return (
     <section className="py-32 md:py-64 px-6 md:px-24 bg-transparent relative z-20">

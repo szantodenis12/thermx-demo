@@ -1,6 +1,5 @@
 import { useRef, useEffect } from "react";
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
-import { FadeUp } from "../ui/FadeUp";
 
 export const ThermalScanner = () => {
   const containerRef = useRef<HTMLDivElement>(null);

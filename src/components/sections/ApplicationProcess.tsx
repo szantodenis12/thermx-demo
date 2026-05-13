@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { FadeUp } from "../ui/FadeUp";
 import { motion, AnimatePresence } from "framer-motion";
 
 const STEPS = [

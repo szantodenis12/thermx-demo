@@ -257,7 +257,7 @@ export const FloatingModel = () => {
     const speedProxy = { value: 0 };
 
     // ── Scroll animation phases ──
-    function setupScrollAnimation(group: THREE.Group, baseScale: number, resetToLogoState: () => void, spinGroup: THREE.Group, root: THREE.Group) {
+    function setupScrollAnimation(group: THREE.Group, baseScale: number, _resetToLogoState: () => void, spinGroup: THREE.Group, root: THREE.Group) {
       const thicknessMultiplier = 0.5;
       const isMobile = window.innerWidth < 768;
       const scaleMultiplier = isMobile ? 0.6 : 1.0;
