@@ -1,0 +1,112 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ═══════════════════════════════════════════════════
+   THERMX — Premium Design System
+   ═══════════════════════════════════════════════════ */
+
+html {
+  scroll-behavior: auto;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background: #0A0A0A;
+  color: #fff;
+  font-family: 'Inter', sans-serif;
+  overflow-x: hidden;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  background: rgba(255, 69, 0, 0.3);
+  color: #fff;
+}
+
+/* ═══════════════════════════════════════════════════
+   RADIAL GLOW
+   ═══════════════════════════════════════════════════ */
+
+.bg-glow {
+  background: radial-gradient(circle, rgba(255,69,0,0.06) 0%, rgba(255,69,0,0.02) 35%, transparent 65%);
+  animation: glow-breathe 8s ease-in-out infinite;
+}
+
+@keyframes glow-breathe {
+  0%, 100% { transform: scale(1); opacity: 0.8; }
+  50%      { transform: scale(1.08); opacity: 1; }
+}
+
+/* ═══════════════════════════════════════════════════
+   SVG LINE FLOAT ANIMATIONS — continuous gentle undulation
+   Each variant floats at a different speed and amplitude
+   ═══════════════════════════════════════════════════ */
+
+.svg-float-0 {
+  animation: float-0 11.2s ease-in-out infinite;
+  transform-origin: center;
+}
+.svg-float-1 {
+  animation: float-1 14.4s ease-in-out infinite;
+  transform-origin: center;
+}
+.svg-float-2 {
+  animation: float-2 9.6s ease-in-out infinite;
+  transform-origin: center;
+}
+.svg-float-3 {
+  animation: float-3 12.8s ease-in-out infinite;
+  transform-origin: center;
+}
+
+@keyframes float-0 {
+  0%, 100% { transform: translateY(0px); }
+  25%      { transform: translateY(-12px); }
+  75%      { transform: translateY(8px); }
+}
+
+@keyframes float-1 {
+  0%, 100% { transform: translateY(0px); }
+  30%      { transform: translateY(15px); }
+  70%      { transform: translateY(-10px); }
+}
+
+@keyframes float-2 {
+  0%, 100% { transform: translateY(0px); }
+  50%      { transform: translateY(-18px); }
+}
+
+@keyframes float-3 {
+  0%, 100% { transform: translateY(0px); }
+  40%      { transform: translateY(10px); }
+  60%      { transform: translateY(-14px); }
+}
+
+/* ═══════════════════════════════════════════════════
+   CINEMATIC TEXT REVEAL — character by character
+   Used by the Hero component via inline styles
+   ═══════════════════════════════════════════════════ */
+
+@keyframes char-reveal {
+  0%   { opacity: 0; transform: translateY(30px) rotateX(-40deg); filter: blur(8px); }
+  100% { opacity: 1; transform: translateY(0) rotateX(0deg); filter: blur(0px); }
+}
+
+@keyframes line-reveal {
+  0%   { clip-path: inset(0 100% 0 0); }
+  100% { clip-path: inset(0 0% 0 0); }
+}
+
+/* ═══════════════════════════════════════════════════
+   SCROLL HINT
+   ═══════════════════════════════════════════════════ */
+
+@keyframes scroll-hint {
+  0%   { transform: translateY(0); opacity: 1; }
+  50%  { transform: translateY(8px); opacity: 0.3; }
+  100% { transform: translateY(0); opacity: 1; }
+}
