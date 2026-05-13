@@ -130,7 +130,7 @@ export const ProductSection = () => {
   const { themeProgress } = useScrollCtx();
 
   const textColor = useTransform(themeProgress, [0, 1], ['#FFFFFF', '#0A0A0A']);
-  const subtextColor = useTransform(themeProgress, [0, 1], ['#9CA3AF', '#1A1A1A']);
+  const subtextColor = useTransform(themeProgress, [0, 1], ['#FFFFFF', '#1A1A1A']);
   const cardBorder = useTransform(themeProgress, [0, 1], ['rgba(255,255,255,0.06)', 'rgba(0,0,0,0.08)']);
   const cardBg = useTransform(themeProgress, [0, 1], ['rgba(255,255,255,0.02)', 'rgba(0,0,0,0.03)']);
 
@@ -306,7 +306,7 @@ export const ScienceSection = () => {
           />
 
           <FadeReveal delay={0.2}>
-            <p className="text-gray-400 text-lg md:text-xl leading-relaxed max-w-3xl font-sans font-light mb-12">
+            <p className="text-white text-lg md:text-xl leading-relaxed max-w-3xl font-sans font-light mb-12">
               Izolația clasică blochează conducția și parțial convecția — dar ignoră radiația, responsabilă pentru până la 40% din pierderile termice. thermX le blochează pe toate trei.
             </p>
           </FadeReveal>
@@ -320,7 +320,7 @@ export const ScienceSection = () => {
                 {/* Left: Title and Description */}
                 <div className="md:w-2/3">
                   <h3 className="font-display font-bold text-3xl text-white mb-4">{mech.title}</h3>
-                  <p className="text-gray-400 font-sans text-base leading-relaxed mb-4">{mech.description}</p>
+                  <p className="text-white font-sans text-base leading-relaxed mb-4">{mech.description}</p>
                   <p className="text-white font-sans text-base leading-relaxed font-medium border-l-2 border-[#FF4500] pl-4">{mech.solution}</p>
                 </div>
 
@@ -329,7 +329,7 @@ export const ScienceSection = () => {
                   <span className="text-[#FF4500] font-display font-black text-8xl md:text-9xl block">
                     {mech.percentage}
                   </span>
-                  <span className="text-gray-500 font-sans text-sm mt-2">{mech.subtitle}</span>
+                  <span className="text-white font-sans text-sm mt-2">{mech.subtitle}</span>
                 </div>
               </div>
             ))}
@@ -534,17 +534,22 @@ export const ContactSection = () => {
 // ═══════════════════════════════════════════════════
 export const Footer = () => (
   <footer className="relative py-12 border-t border-white/[0.04]">
-    <div className="max-w-6xl mx-auto px-6 md:px-12 flex flex-col md:flex-row justify-between items-center gap-6">
-      <div className="flex items-center">
-        <span className="text-white font-display font-bold text-lg">thermX</span>
-        <span className="text-[#FF4500] text-xl leading-none font-bold ml-[1px]">.</span>
+    <div className="max-w-6xl mx-auto px-6 md:px-12 flex flex-col items-center gap-6 text-center">
+      <div className="flex flex-col md:flex-row justify-center items-center gap-4 md:gap-8">
+        <div className="flex items-center">
+          <span className="text-black font-display font-bold text-lg">thermX</span>
+          <span className="text-[#FF4500] text-xl leading-none font-bold ml-[1px]">.</span>
+        </div>
+        <span className="text-gray-600 font-sans text-xs">
+          © {new Date().getFullYear()} Nano Revolution SRL. Toate drepturile rezervate.
+        </span>
+        <div className="flex items-center gap-6">
+          <a href="#" className="text-gray-600 font-sans text-xs hover:text-white transition-colors">Fișă Tehnică</a>
+          <a href="#" className="text-gray-600 font-sans text-xs hover:text-white transition-colors">Certificări</a>
+        </div>
       </div>
-      <span className="text-gray-600 font-sans text-xs">
-        © {new Date().getFullYear()} Nano Revolution SRL. Toate drepturile rezervate.
-      </span>
-      <div className="flex items-center gap-6">
-        <a href="#" className="text-gray-600 font-sans text-xs hover:text-white transition-colors">Fișă Tehnică</a>
-        <a href="#" className="text-gray-600 font-sans text-xs hover:text-white transition-colors">Certificări</a>
+      <div className="text-gray-600 font-sans text-xs">
+        Site realizat de <a href="https://epicdigitalhub.ro/" target="_blank" rel="noopener noreferrer" className="text-black hover:text-[#FF4500] transition-colors">Epic Digital Hub</a>
       </div>
     </div>
   </footer>

@@ -158,7 +158,7 @@ export const FloatingModel = () => {
         // Start slightly smaller
         const initialScale = baseScale * 0.8;
         // Make it thinner on the Z axis (e.g., 0.5 for half thickness) directly from code!
-        const thicknessMultiplier = 0.5; 
+        const thicknessMultiplier = 0.5;
         root.scale.set(initialScale, initialScale, initialScale * thicknessMultiplier);
 
         // Center
@@ -193,7 +193,7 @@ export const FloatingModel = () => {
         // Start model slightly right of center, significantly elevated (top: ~20-25%)
         // Camera is at y: 0.5, z: 8. Center is y:0. Top: 20% is roughly y: 2.2
         // x: 0.8 keeps it tightly nested against the 'therm' text
-        scrollGroup.position.set(isMobile ? 0 : 0.8, isMobile ? 2.5 : 2.2, 0);
+        scrollGroup.position.set(isMobile ? 0 : 0.5, isMobile ? 2.5 : 2.35, 0);
 
         // Intro animation for 3D model (fade opacity)
         root.traverse((child) => {
@@ -225,7 +225,7 @@ export const FloatingModel = () => {
           );
 
           // Modest scale for the central logo state
-          const logoStateScale = baseScale * 0.78 * scaleMultiplier;
+          const logoStateScale = baseScale * 0.48 * scaleMultiplier;
           root.scale.set(logoStateScale, logoStateScale, logoStateScale);
         };
 
@@ -409,13 +409,13 @@ export const FloatingModel = () => {
       tlGlobal3D.to(root.scale, { x: baseScale * 1.7 * 1.8 * scaleMultiplier, y: baseScale * 1.7 * 1.8 * scaleMultiplier, z: baseScale * 1.7 * 1.8 * thicknessMultiplier * scaleMultiplier, ease: 'power1.inOut' }, "<");
 
       // Step 4: Contact Section
-      tlGlobal3D.to(group.position, { x: isMobile ? 0 : 0.5, y: isMobile ? 1.5 : 0.2, z: isMobile ? -5 : -5, ease: 'power2.inOut' });
+      tlGlobal3D.to(group.position, { x: 0, y: isMobile ? 1.5 : 0.2, z: isMobile ? -5 : -5, ease: 'power2.inOut' });
       tlGlobal3D.to(group.rotation, { x: 0.05, y: Math.PI * (isMobile ? 4.0 : 4.0), z: 0, ease: 'power2.inOut' }, "<");
-      tlGlobal3D.to(root.scale, { 
-        x: baseScale * 1.7 * 1.6 * scaleMultiplier * (isMobile ? 0.7 : 1.0), 
-        y: baseScale * 1.7 * 1.6 * scaleMultiplier * (isMobile ? 0.7 : 1.0), 
-        z: baseScale * 1.7 * 1.6 * thicknessMultiplier * scaleMultiplier * (isMobile ? 0.7 : 1.0), 
-        ease: 'power2.inOut' 
+      tlGlobal3D.to(root.scale, {
+        x: baseScale * 1.7 * 1.6 * scaleMultiplier * (isMobile ? 0.7 : 1.0),
+        y: baseScale * 1.7 * 1.6 * scaleMultiplier * (isMobile ? 0.7 : 1.0),
+        z: baseScale * 1.7 * 1.6 * thicknessMultiplier * scaleMultiplier * (isMobile ? 0.7 : 1.0),
+        ease: 'power2.inOut'
       }, "<");
     }
 
@@ -454,7 +454,7 @@ export const FloatingModel = () => {
 
       // Continuous float up and down (idle animation) at the top of the page
       if (modelLoaded) {
-        const initialX = window.innerWidth < 768 ? 0 : 0.8;
+        const initialX = window.innerWidth < 768 ? 0 : 0.5;
         const atTop = Math.abs(scrollGroup.position.x - initialX) < 0.05;
         if (atTop) {
           idleGroup.position.y = Math.sin(now * 0.0015) * 0.06; // More subtle movement
