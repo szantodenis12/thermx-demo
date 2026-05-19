@@ -30,7 +30,7 @@ export const Hero = () => {
   const scrollIndicatorOpacity = useTransform(smooth, [0, 0.15], [1, 0]);
 
   // Character-by-character animation for the title
-  const title = "Milimetrul care contează.";
+  const title = "MEMBRANA TERMOIZOLANTĂ NANOCERAMICĂ .";
   const chars = title.split("");
 
   return (
@@ -49,7 +49,7 @@ export const Hero = () => {
           animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
           transition={{ duration: 1.2, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
         >
-          Membrană termoizolantă nanoceramică
+          MILIMETRUL CARE CONTEAZĂ
         </motion.span>
 
         {/* Title — character by character reveal with blur */}
@@ -61,9 +61,10 @@ export const Hero = () => {
             {chars.map((char, i) => (
               <span key={i}>
                 <motion.span
-                  className="inline-block text-white font-display font-black text-[clamp(3rem,10vw,11rem)] leading-[0.88] tracking-[-0.05em]"
+                  id={i === 36 ? "hero-dot" : undefined}
+                  className="inline-block text-white font-display font-black text-[clamp(2rem,5vw,5rem)] leading-[1.0] tracking-[0.01em]"
                   initial={{ opacity: 0, y: 40, rotateX: -50, filter: 'blur(10px)' }}
-                  animate={{ opacity: 1, y: 0, rotateX: 0, filter: 'blur(0px)' }}
+                  animate={{ opacity: i === 36 ? 0 : 1, y: 0, rotateX: 0, filter: 'blur(0px)' }}
                   transition={{
                     duration: 0.8,
                     delay: 0.3 + i * 0.025,
@@ -76,7 +77,7 @@ export const Hero = () => {
                 >
                   {char === ' ' ? '\u00A0' : char}
                 </motion.span>
-                {i === 14 && <br />}
+                {i === 22 && <br />}
               </span>
             ))}
           </span>

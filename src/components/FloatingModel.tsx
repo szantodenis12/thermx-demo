@@ -49,6 +49,7 @@ export const FloatingModel = () => {
     renderer.outputColorSpace = THREE.SRGBColorSpace;
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
     renderer.toneMappingExposure = 1.8;
+    renderer.localClippingEnabled = true; // Enable clipping
     containerRef.current.appendChild(renderer.domElement);
 
     // ── Create environment map for PBR materials ──
@@ -139,125 +140,212 @@ export const FloatingModel = () => {
     const idleGroup = new THREE.Group();
     scrollGroup.add(idleGroup);
 
+    const spinGroup = new THREE.Group();
+    idleGroup.add(spinGroup);
+
     let modelLoaded = false;
+    let model1: THREE.Group | null = null;
+    let model2: THREE.Group | null = null;
+    let baseScale = 1;
 
-    loader.load(
-      '/assets/x_3d_compressed.glb',
-      (gltf) => {
-        const root = gltf.scene;
-        const isMobile = window.innerWidth < 768;
-        const scaleMultiplier = isMobile ? 0.6 : 1.0;
+    let coatMesh: THREE.Mesh | null = null;
+    let sphereMesh: THREE.Mesh | null = null;
 
-        // Normalize size
-        const box = new THREE.Box3().setFromObject(root);
-        const size = new THREE.Vector3();
-        box.getSize(size);
-        const maxDim = Math.max(size.x, size.y, size.z);
-        const targetSize = 2.2;
-        const baseScale = targetSize / maxDim;
-        // Start slightly smaller
-        const initialScale = baseScale * 0.8;
-        // Make it thinner on the Z axis (e.g., 0.5 for half thickness) directly from code!
-        const thicknessMultiplier = 0.5;
-        root.scale.set(initialScale, initialScale, initialScale * thicknessMultiplier);
+    const onModelsLoaded = () => {
+      if (!model1 || !model2) return;
 
-        // Center
-        const center = new THREE.Vector3();
-        box.getCenter(center);
-        root.position.set(-center.x * initialScale, -center.y * initialScale, -center.z * initialScale);
+      const isMobile = window.innerWidth < 768;
+      const scaleMultiplier = isMobile ? 0.6 : 1.0;
 
-        // Optimize materials — keep original PBR, ensure env map works
-        root.traverse((child) => {
-          if ((child as THREE.Mesh).isMesh) {
-            const mesh = child as THREE.Mesh;
-            mesh.frustumCulled = true;
+      // Normalize size using model1 (sphere_white_opaque) as reference
+      const box = new THREE.Box3().setFromObject(model1);
+      const size = new THREE.Vector3();
+      box.getSize(size);
+      const maxDim = Math.max(size.x, size.y, size.z);
+      const targetSize = 2.2;
+      baseScale = targetSize / maxDim;
+      const initialScale = baseScale * 0.8;
 
-            const materials = Array.isArray(mesh.material) ? mesh.material : [mesh.material];
-            materials.forEach((mat) => {
-              if ((mat as THREE.MeshStandardMaterial).isMeshStandardMaterial) {
-                const stdMat = mat as THREE.MeshStandardMaterial;
-                stdMat.envMap = envMap;
-                stdMat.envMapIntensity = 1.0;
-                stdMat.needsUpdate = true;
+      // Apply initial scale to both
+      model1.scale.set(initialScale, initialScale, initialScale);
+      model2.scale.set(initialScale, initialScale, initialScale);
+
+      // Center them (using model1 center)
+      const center = new THREE.Vector3();
+      box.getCenter(center);
+      model1.position.set(-center.x * initialScale, -center.y * initialScale, -center.z * initialScale);
+      model2.position.set(-center.x * initialScale, -center.y * initialScale, -center.z * initialScale);
+
+      // Setup materials for model2 (Volcano Coat)
+      const meshesToRemove: THREE.Mesh[] = [];
+      model2.traverse((child) => {
+        if ((child as THREE.Mesh).isMesh) {
+          const mesh = child as THREE.Mesh;
+          mesh.frustumCulled = true;
+
+          console.log('Mesh found in Model2:', mesh.name);
+
+          // Force smooth shading by computing vertex normals
+          mesh.geometry.computeVertexNormals();
+
+          // Identify meshes
+          if (mesh.name === 'Spehere') {
+            sphereMesh = mesh;
+            mesh.visible = true;
+          } else {
+            mesh.visible = false; // Hide everything else
+            if (mesh.name.includes('Coat')) {
+              meshesToRemove.push(mesh);
+            }
+          }
+
+          const materials = Array.isArray(mesh.material) ? mesh.material : [mesh.material];
+          materials.forEach((mat) => {
+            mat.transparent = true;
+            if ((mat as THREE.MeshStandardMaterial).isMeshStandardMaterial) {
+              const stdMat = mat as THREE.MeshStandardMaterial;
+              stdMat.envMap = envMap;
+              stdMat.envMapIntensity = 1.0;
+              stdMat.flatShading = false; // Ensure smooth shading
+              stdMat.needsUpdate = true;
+
+              // Add emission to sphereMesh
+              if (mesh.name === 'Spehere') {
+                stdMat.emissive = new THREE.Color(0xff4500); // Orange/Red fire color
+                stdMat.emissiveIntensity = 2.0;
               }
-            });
-          }
-        });
-
-        // Create an inner group for the continuous endless spin so it doesn't conflict with GSAP scrub
-        const spinGroup = new THREE.Group();
-        spinGroup.add(root);
-        idleGroup.add(spinGroup);
-        modelLoaded = true;
-
-        // Start model slightly right of center, significantly elevated (top: ~20-25%)
-        // Camera is at y: 0.5, z: 8. Center is y:0. Top: 20% is roughly y: 2.2
-        // x: 0.8 keeps it tightly nested against the 'therm' text
-        scrollGroup.position.set(isMobile ? 0 : 0.5, isMobile ? 2.5 : 2.35, 0);
-
-        // Intro animation for 3D model (fade opacity)
-        root.traverse((child) => {
-          if ((child as THREE.Mesh).isMesh) {
-            const mesh = child as THREE.Mesh;
-            const materials = Array.isArray(mesh.material) ? mesh.material : [mesh.material];
-            materials.forEach((mat) => {
-              mat.transparent = true;
-              mat.opacity = 0;
-              gsap.to(mat, { opacity: 1, duration: 1.6, ease: 'power2.out', delay: 0.1 });
-            });
-          }
-        });
-
-        // ── STRICT STATES ──
-        const resetToLogoState = () => {
-          if (!root) return;
-
-          // Clear quaternions to ensure rotation applies cleanly
-          root.quaternion.set(0, 0, 0, 1);
-          idleGroup.quaternion.set(0, 0, 0, 1);
-          spinGroup.quaternion.set(0, 0, 0, 1);
-
-          // Exact frontal X rotation
-          idleGroup.rotation.set(
-            THREE.MathUtils.degToRad(0),   // rotation.x 
-            THREE.MathUtils.degToRad(0),   // rotation.y 
-            THREE.MathUtils.degToRad(0)     // rotation.z
-          );
-
-          // Modest scale for the central logo state
-          const logoStateScale = baseScale * 0.48 * scaleMultiplier;
-          root.scale.set(logoStateScale, logoStateScale, logoStateScale);
-        };
-
-        // Apply immediately at load
-        resetToLogoState();
-
-        // Expose to window for live debugging
-        (window as any).resetToLogoState = resetToLogoState;
-
-        // Ensure text is immediately visible without GSAP delay, just a subtle entrance
-        if (thermTextRef.current) {
-          gsap.fromTo(
-            thermTextRef.current,
-            { opacity: 0, y: 15 },
-            { opacity: 1, y: 0, duration: 1.0, ease: 'power3.out' }
-          );
+            }
+          });
         }
+      });
+      meshesToRemove.forEach((mesh) => {
+        mesh.parent?.remove(mesh);
+        console.log('Removed mesh:', mesh.name);
+      });
 
-        // Setup scroll animation using separate triggers
-        setupScrollAnimation(scrollGroup, baseScale, resetToLogoState, spinGroup, root);
-      },
-      undefined,
-      (error) => {
-        console.error('FloatingModel: Failed to load model', error);
+      // Setup materials for model1
+      model1.traverse((child) => {
+        if ((child as THREE.Mesh).isMesh) {
+          const mesh = child as THREE.Mesh;
+          mesh.frustumCulled = true;
+          const materials = Array.isArray(mesh.material) ? mesh.material : [mesh.material];
+          materials.forEach((mat) => {
+            mat.transparent = true;
+            if ((mat as THREE.MeshStandardMaterial).isMeshStandardMaterial) {
+              const stdMat = mat as THREE.MeshStandardMaterial;
+              stdMat.envMap = envMap;
+              stdMat.envMapIntensity = 1.0;
+              stdMat.needsUpdate = true;
+            }
+          });
+        }
+      });
+
+      const modelContainer = new THREE.Group();
+      modelContainer.add(model1);
+      modelContainer.add(model2);
+      spinGroup.add(modelContainer);
+
+      modelLoaded = true;
+
+      // Start model at the position of the dot in the hero title
+      const dot = document.getElementById('hero-dot');
+      if (dot) {
+        const rect = dot.getBoundingClientRect();
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 2;
+
+        const vector = new THREE.Vector3();
+        vector.x = (centerX / window.innerWidth) * 2 - 1;
+        vector.y = -(centerY / window.innerHeight) * 2 + 1;
+        vector.z = 0.5;
+
+        vector.unproject(camera);
+
+        const dir = vector.sub(camera.position).normalize();
+        const distance = -camera.position.z / dir.z; // Intersection with z=0 plane
+        const pos = camera.position.clone().add(dir.multiplyScalar(distance));
+
+        scrollGroup.position.copy(pos);
+
+        // Offset to match the user's red circle (below and slightly right)
+        scrollGroup.position.x += isMobile ? 0.1 : -0.1;
+        scrollGroup.position.y -= isMobile ? 0.3 : 0.08;
+      } else {
+        // Fallback position if dot not found
+        scrollGroup.position.set(isMobile ? 0 : 0.5, isMobile ? 2.5 : 2.35, 0);
       }
-    );
+
+      // Intro animation for 3D model (fade opacity for model1 only initially)
+      model1.traverse((child) => {
+        if ((child as THREE.Mesh).isMesh) {
+          const mesh = child as THREE.Mesh;
+          const materials = Array.isArray(mesh.material) ? mesh.material : [mesh.material];
+          materials.forEach((mat) => {
+            mat.opacity = 0;
+            gsap.to(mat, { opacity: 1, duration: 1.6, ease: 'power2.out', delay: 0.1 });
+          });
+        }
+      });
+
+      // Model 2 starts invisible
+      model2.traverse((child) => {
+        if ((child as THREE.Mesh).isMesh) {
+          const mesh = child as THREE.Mesh;
+          const materials = Array.isArray(mesh.material) ? mesh.material : [mesh.material];
+          materials.forEach((mat) => {
+            mat.opacity = 0;
+          });
+        }
+      });
+
+      // ── STRICT STATES ──
+      const resetToLogoState = () => {
+        if (!modelContainer) return;
+
+        modelContainer.quaternion.set(0, 0, 0, 1);
+        idleGroup.quaternion.set(0, 0, 0, 1);
+        spinGroup.quaternion.set(0, 0, 0, 1);
+
+        idleGroup.rotation.set(0, 0, 0);
+
+        modelContainer.scale.set(0.2, 0.2, 0.2); // Size of the red circle
+
+        const logoStateScale = baseScale * 0.48 * scaleMultiplier;
+        model1.scale.set(logoStateScale, logoStateScale, logoStateScale);
+        model2.scale.set(logoStateScale, logoStateScale, logoStateScale);
+      };
+
+      resetToLogoState();
+
+      (window as any).resetToLogoState = resetToLogoState;
+
+      if (thermTextRef.current) {
+        gsap.fromTo(
+          thermTextRef.current,
+          { opacity: 0, y: 15 },
+          { opacity: 1, y: 0, duration: 1.0, ease: 'power3.out' }
+        );
+      }
+
+      setupScrollAnimation(scrollGroup, baseScale, resetToLogoState, spinGroup, modelContainer, model1, sphereMesh, coatMesh);
+    };
+
+    loader.load('/assets/sphere_white_opaque.glb', (gltf) => {
+      model1 = gltf.scene;
+      onModelsLoaded();
+    }, undefined, (error) => console.error('Failed to load sphere 1', error));
+
+    loader.load('/assets/sphere_volcano_coat_2.glb', (gltf) => {
+      model2 = gltf.scene;
+      onModelsLoaded();
+    }, undefined, (error) => console.error('Failed to load sphere 2', error));
 
     // Proxy object to control rotation speed via GSAP
     const speedProxy = { value: 0 };
 
     // ── Scroll animation phases ──
-    function setupScrollAnimation(group: THREE.Group, baseScale: number, _resetToLogoState: () => void, spinGroup: THREE.Group, root: THREE.Group) {
+    function setupScrollAnimation(group: THREE.Group, baseScale: number, _resetToLogoState: () => void, spinGroup: THREE.Group, root: THREE.Group, m1: THREE.Group, sMesh: THREE.Mesh | null, cMesh: THREE.Mesh | null) {
       const thicknessMultiplier = 0.5;
       const isMobile = window.innerWidth < 768;
       const scaleMultiplier = isMobile ? 0.6 : 1.0;
@@ -374,9 +462,28 @@ export const FloatingModel = () => {
         const heroStateScale = baseScale * 1.7 * scaleMultiplier;
         tlHero3D.to(
           root.scale,
-          { x: heroStateScale, y: heroStateScale, z: heroStateScale * thicknessMultiplier, duration: 1, ease: 'power3.inOut' },
+          { x: heroStateScale, y: heroStateScale, z: heroStateScale, duration: 1, ease: 'power3.inOut' },
           0
         );
+
+        // Sfera 1 (m1) devine transparentă
+        m1.traverse((child) => {
+          if ((child as THREE.Mesh).isMesh) {
+            const mesh = child as THREE.Mesh;
+            const materials = Array.isArray(mesh.material) ? mesh.material : [mesh.material];
+            materials.forEach((mat) => {
+              tlHero3D.to(mat, { opacity: 0, duration: 0.5 }, 0);
+            });
+          }
+        });
+
+        // Sfera 2 (sMesh) devine opacă
+        if (sMesh) {
+          const materials = Array.isArray(sMesh.material) ? sMesh.material : [sMesh.material];
+          materials.forEach((mat) => {
+            tlHero3D.to(mat, { opacity: 1, duration: 0.5 }, 0);
+          });
+        }
 
         tlHero3D.to(speedProxy, { value: 0.15, duration: 1, ease: 'power2.inOut' }, 0);
       }
@@ -393,28 +500,60 @@ export const FloatingModel = () => {
         }
       });
 
-      // Step 1: Product Section
+      // Step 1: Product Section (Stays Volcano)
       tlGlobal3D.to(group.position, { x: isMobile ? 0 : 3.2, y: isMobile ? 0.5 : 0.2, z: isMobile ? -4 : -3.5, ease: 'power1.inOut' });
       tlGlobal3D.to(group.rotation, { x: -0.05, y: Math.PI * (isMobile ? 1.0 : 0.5), z: -0.02, ease: 'power1.inOut' }, "<");
-      tlGlobal3D.to(root.scale, { x: baseScale * 1.7 * 1.2 * scaleMultiplier, y: baseScale * 1.7 * 1.2 * scaleMultiplier, z: baseScale * 1.7 * 1.2 * thicknessMultiplier * scaleMultiplier, ease: 'power1.inOut' }, "<");
+      tlGlobal3D.to(root.scale, { x: baseScale * 1.7 * 1.2 * scaleMultiplier, y: baseScale * 1.7 * 1.2 * scaleMultiplier, z: baseScale * 1.7 * 1.2 * scaleMultiplier, ease: 'power1.inOut' }, "<");
 
-      // Step 2: Science Section
+      // Step 2: Science Section (Transition back to White)
       tlGlobal3D.to(group.position, { x: isMobile ? 0 : -2.5, y: isMobile ? 0.8 : 0.5, z: isMobile ? -5 : -5.5, ease: 'power2.inOut' });
       tlGlobal3D.to(group.rotation, { x: 0.2, y: Math.PI * (isMobile ? 2.0 : 1.5), z: 0.1, ease: 'power2.inOut' }, "<");
-      tlGlobal3D.to(root.scale, { x: baseScale * 1.7 * 1.8 * scaleMultiplier, y: baseScale * 1.7 * 1.8 * scaleMultiplier, z: baseScale * 1.7 * 1.8 * thicknessMultiplier * scaleMultiplier, ease: 'power2.inOut' }, "<");
+      tlGlobal3D.to(root.scale, { x: baseScale * 1.7 * 1.8 * scaleMultiplier, y: baseScale * 1.7 * 1.8 * scaleMultiplier, z: baseScale * 1.7 * 1.8 * scaleMultiplier, ease: 'power2.inOut' }, "<");
 
-      // Step 3: Specs Section
+      m1.traverse((child) => {
+        if ((child as THREE.Mesh).isMesh) {
+          const mesh = child as THREE.Mesh;
+          const materials = Array.isArray(mesh.material) ? mesh.material : [mesh.material];
+          materials.forEach((mat) => {
+            tlGlobal3D.to(mat, { opacity: 1, duration: 0.5 }, "<");
+          });
+        }
+      });
+      if (sMesh) {
+        const materials = Array.isArray(sMesh.material) ? sMesh.material : [sMesh.material];
+        materials.forEach((mat) => {
+          tlGlobal3D.to(mat, { opacity: 0, duration: 0.5 }, "<");
+        });
+      }
+
+      // Step 3: Specs Section (Transition back to Volcano)
       tlGlobal3D.to(group.position, { x: isMobile ? 0 : 2.5, y: isMobile ? -0.1 : -0.3, z: isMobile ? -5 : -5.5, ease: 'power1.inOut' });
       tlGlobal3D.to(group.rotation, { x: -0.1, y: Math.PI * (isMobile ? 3.0 : 2.5), z: 0.05, ease: 'power1.inOut' }, "<");
-      tlGlobal3D.to(root.scale, { x: baseScale * 1.7 * 1.8 * scaleMultiplier, y: baseScale * 1.7 * 1.8 * scaleMultiplier, z: baseScale * 1.7 * 1.8 * thicknessMultiplier * scaleMultiplier, ease: 'power1.inOut' }, "<");
+      tlGlobal3D.to(root.scale, { x: baseScale * 1.7 * 1.8 * scaleMultiplier, y: baseScale * 1.7 * 1.8 * scaleMultiplier, z: baseScale * 1.7 * 1.8 * scaleMultiplier, ease: 'power1.inOut' }, "<");
 
-      // Step 4: Contact Section
+      m1.traverse((child) => {
+        if ((child as THREE.Mesh).isMesh) {
+          const mesh = child as THREE.Mesh;
+          const materials = Array.isArray(mesh.material) ? mesh.material : [mesh.material];
+          materials.forEach((mat) => {
+            tlGlobal3D.to(mat, { opacity: 0, duration: 0.5 }, "<");
+          });
+        }
+      });
+      if (sMesh) {
+        const materials = Array.isArray(sMesh.material) ? sMesh.material : [sMesh.material];
+        materials.forEach((mat) => {
+          tlGlobal3D.to(mat, { opacity: 1, duration: 0.5 }, "<");
+        });
+      }
+
+      // Step 4: Contact Section (Stays Volcano)
       tlGlobal3D.to(group.position, { x: 0, y: isMobile ? 1.5 : 0.2, z: isMobile ? -5 : -5, ease: 'power2.inOut' });
       tlGlobal3D.to(group.rotation, { x: 0.05, y: Math.PI * (isMobile ? 4.0 : 4.0), z: 0, ease: 'power2.inOut' }, "<");
       tlGlobal3D.to(root.scale, {
         x: baseScale * 1.7 * 1.6 * scaleMultiplier * (isMobile ? 0.7 : 1.0),
         y: baseScale * 1.7 * 1.6 * scaleMultiplier * (isMobile ? 0.7 : 1.0),
-        z: baseScale * 1.7 * 1.6 * thicknessMultiplier * scaleMultiplier * (isMobile ? 0.7 : 1.0),
+        z: baseScale * 1.7 * 1.6 * scaleMultiplier * (isMobile ? 0.7 : 1.0),
         ease: 'power2.inOut'
       }, "<");
     }
@@ -525,14 +664,14 @@ export const FloatingModel = () => {
         style={{
           top: '20%',
           left: '50%',
-          transform: 'translate(-100%, -50%)', // Right edge perfectly at center
+          transform: 'translate(-50%, -50%)', // Centered
           transformOrigin: 'left center', // Crucial for clean scale animation to the navbar
           fontSize: 'clamp(2rem, 5vw, 4.5rem)', // 60-75% of previous size, elegant and modest
           lineHeight: '1',
           willChange: 'top, left, transform',
         }}
       >
-        therm
+        therm<span className="text-[#FF4500] text-[1.2em]">X.</span>
       </span>
     </>
   );
