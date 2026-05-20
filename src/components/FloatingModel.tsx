@@ -148,7 +148,6 @@ export const FloatingModel = () => {
     let model2: THREE.Group | null = null;
     let baseScale = 1;
 
-    let coatMesh: THREE.Mesh | null = null;
     let sphereMesh: THREE.Mesh | null = null;
 
     const onModelsLoaded = () => {
@@ -301,7 +300,7 @@ export const FloatingModel = () => {
 
       // ── STRICT STATES ──
       const resetToLogoState = () => {
-        if (!modelContainer) return;
+        if (!modelContainer || !model1 || !model2) return;
 
         modelContainer.quaternion.set(0, 0, 0, 1);
         idleGroup.quaternion.set(0, 0, 0, 1);
@@ -328,7 +327,7 @@ export const FloatingModel = () => {
         );
       }
 
-      setupScrollAnimation(scrollGroup, baseScale, resetToLogoState, spinGroup, modelContainer, model1, sphereMesh, coatMesh);
+      setupScrollAnimation(scrollGroup, baseScale, resetToLogoState, spinGroup, modelContainer, model1, sphereMesh);
     };
 
     loader.load('/assets/sphere_white_opaque.glb', (gltf) => {
@@ -345,8 +344,7 @@ export const FloatingModel = () => {
     const speedProxy = { value: 0 };
 
     // ── Scroll animation phases ──
-    function setupScrollAnimation(group: THREE.Group, baseScale: number, _resetToLogoState: () => void, spinGroup: THREE.Group, root: THREE.Group, m1: THREE.Group, sMesh: THREE.Mesh | null, cMesh: THREE.Mesh | null) {
-      const thicknessMultiplier = 0.5;
+    function setupScrollAnimation(group: THREE.Group, baseScale: number, _resetToLogoState: () => void, spinGroup: THREE.Group, root: THREE.Group, m1: THREE.Group, sMesh: THREE.Mesh | null) {
       const isMobile = window.innerWidth < 768;
       const scaleMultiplier = isMobile ? 0.6 : 1.0;
 
