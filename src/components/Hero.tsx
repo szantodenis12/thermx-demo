@@ -30,7 +30,7 @@ export const Hero = () => {
   const scrollIndicatorOpacity = useTransform(smooth, [0, 0.15], [1, 0]);
 
   // Character-by-character animation for the title
-  const title = "MEMBRANA TERMOIZOLANTĂ NANOCERAMICĂ .";
+  const title = "IZOLAȚIA NU ÎNSEAMNĂ DOAR GROSIME .";
   const chars = title.split("");
 
   return (
@@ -49,22 +49,22 @@ export const Hero = () => {
           animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
           transition={{ duration: 1.2, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
         >
-          MILIMETRUL CARE CONTEAZĂ
+          MEMBRANĂ NANOCERAMICĂ TERMOIZOLANTĂ
         </motion.span>
 
         {/* Title — character by character reveal with blur */}
         <motion.h1
-          className="mb-10 perspective-[1000px]"
+          className="mb-10 perspective-[1000px] leading-[1.18]"
           style={{ y: titleY, opacity: titleOpacity, scale: titleScale }}
         >
           <span className="inline-block">
             {chars.map((char, i) => (
               <span key={i}>
                 <motion.span
-                  id={i === 36 ? "hero-dot" : undefined}
-                  className="inline-block text-white font-display font-black text-[clamp(2rem,5vw,5rem)] leading-[1.0] tracking-[0.01em]"
+                  id={i === 34 ? "hero-dot" : undefined}
+                  className="inline-block text-white font-display font-black text-[clamp(2rem,5vw,5rem)] leading-[1.18] tracking-[0.01em]"
                   initial={{ opacity: 0, y: 40, rotateX: -50, filter: 'blur(10px)' }}
-                  animate={{ opacity: i === 36 ? 0 : 1, y: 0, rotateX: 0, filter: 'blur(0px)' }}
+                  animate={{ opacity: i === 34 ? 0 : 1, y: 0, rotateX: 0, filter: 'blur(0px)' }}
                   transition={{
                     duration: 0.8,
                     delay: 0.3 + i * 0.025,
@@ -77,7 +77,7 @@ export const Hero = () => {
                 >
                   {char === ' ' ? '\u00A0' : char}
                 </motion.span>
-                {i === 22 && <br />}
+                {i === 20 && <br />}
               </span>
             ))}
           </span>
@@ -91,8 +91,7 @@ export const Hero = () => {
           animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
           transition={{ duration: 1, delay: 1.1, ease: [0.22, 1, 0.36, 1] }}
         >
-          Lambda echivalent <span className="text-white font-medium">0,001 W/(m·K)</span>.
-          1 mm grosime. Până la <span className="text-[#FF4500] font-semibold">40% economie</span> pe factura de energie.
+          Reduce cu până la <span className="text-[#FF4500] font-semibold">40%</span> pierderile energetice. Zero punți termice. Garanție <span className="text-white font-medium">20 de ani</span>.
         </motion.p>
 
         {/* CTA — slowest parallax (stays longest) */}

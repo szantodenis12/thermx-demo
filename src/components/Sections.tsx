@@ -58,7 +58,7 @@ const TextReveal = ({
       {words.map((word, i) => (
         <span
           key={i}
-          className="inline-block overflow-hidden pb-[0.08em] mr-[0.28em] last:mr-0 align-top"
+          className="inline-block overflow-hidden py-[0.2em] my-[-0.2em] px-[0.1em] mx-[-0.1em] mr-[0.28em] last:mr-0 align-top"
         >
           <motion.span
             className="inline-block will-change-transform"
@@ -182,7 +182,7 @@ export const ProductSection = () => {
               Ce este
             </span>
             <motion.h2 className="font-display font-black text-4xl sm:text-5xl md:text-6xl lg:text-7xl tracking-[-0.03em] leading-[1.05] max-w-4xl" style={{ color: textColor }}>
-              O membrană termoizolantă de doar 0,5–1 mm, aplicată prin pulverizare.
+              Membrană termoizolantă nanoceramică, aplicată prin pulverizare într-o grosime controlată de 1–3 mm.
             </motion.h2>
           </div>
 
@@ -192,9 +192,11 @@ export const ProductSection = () => {
             className="absolute inset-0 flex flex-col justify-center"
           >
             <motion.p className="text-lg md:text-xl leading-relaxed max-w-3xl font-sans font-light" style={{ color: subtextColor }}>
-              Se usucă și formează un strat continuu, fără rosturi — acoperind inclusiv geometrii complexe unde izolația clasică nu ajunge. Blochează toate cele trei mecanisme de transfer termic:
-              <motion.span className="font-medium" style={{ color: textColor }}> conducție, convecție și radiație infraroșie</motion.span>.
-              Rezultatul: performanță de izolație comparabilă cu 8–10 cm de polistiren, într-un singur milimetru.
+              thermX folosește microsfere ceramice vidate, integrate într-un strat nanoceramic reflectiv aplicat direct pe suprafață. După uscare, formează o membrană continuă, fără rosturi și fără îmbinări între plăci.
+              <br /><br />
+              Punctul forte al tehnologiei este reducerea transferului termic prin
+              <motion.span className="font-medium" style={{ color: textColor }}> radiație infraroșie</motion.span>.
+              În același timp, continuitatea membranei ajută la limitarea pierderilor generate de întreruperi, microfisuri și zone greu de acoperit.
             </motion.p>
           </div>
 
@@ -205,15 +207,18 @@ export const ProductSection = () => {
           >
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
               {[
-                { value: "40%", label: "Economie energie", desc: "Membrana reflectă 85% din radiația infraroșie și elimină punțile termice." },
-                { value: "80%", label: "Timp mai scurt", desc: "O casă de 150 m² se finalizează în 2–3 zile cu 1–2 operatori." },
-                { value: "30%", label: "Cost mai mic", desc: "Fără schelă, fără ancore mecanice, fără profil de pornire." },
+              { prefix: "PÂNĂ LA", value: "40%", label: "Economie de energie", desc: "Prin reflexia radiației infraroșii și reducerea pierderilor termice la nivelul suprafeței." },
+                { prefix: "PÂNĂ LA", value: "80%", label: "Timp de aplicare redus", desc: "Pulverizare rapidă, fără montaj de plăci, dibluri sau elemente mecanice suplimentare." },
+                { prefix: "PÂNĂ LA", value: "30%", label: "Costuri de execuție reduse", desc: "Mai puține materiale auxiliare, mai puține etape și adaptare mai ușoară la suprafețe complexe." },
               ].map((stat) => (
                 <motion.div
                   key={stat.value}
                   className="group relative p-8 rounded-2xl transition-all duration-500 cursor-default backdrop-blur-md"
                   style={{ borderWidth: 1, borderStyle: 'solid', borderColor: cardBorder, backgroundColor: cardBg }}
                 >
+                  <span className="block mb-1">
+                    <span className="text-[#FF4500] font-display font-bold text-sm md:text-base uppercase tracking-widest">{stat.prefix}</span>
+                  </span>
                   <span className="text-[#FF4500] font-display font-black text-5xl md:text-6xl block mb-3">
                     {stat.value}
                   </span>
@@ -239,22 +244,22 @@ export const ScienceSection = () => {
       title: "Radiație infraroșie",
       percentage: "40%",
       subtitle: "din energia pierdută",
-      description: "Orice suprafață caldă emite radiație infraroșie — invizibilă, dar responsabilă pentru până la 40% din energia pierdută. EPS și vata minerală o ignoră complet.",
-      solution: "thermX reflectă 85% din radiația infraroșie. De aceea 1 mm e suficient.",
+      description: "Invizibilă, dar importantă în bilanțul termic al unei clădiri. thermX reflectă până la 85% din radiația infraroșie, contribuind la reducerea consumului de energie.",
+      solution: "Până la 40% economie de energie în condiții specifice de aplicare.",
     },
     {
       title: "Conducție",
       percentage: "~35%",
       subtitle: "transfer prin solide",
-      description: "Căldura trece direct prin materiale solide — pereți, beton, metal, lemn. Cu cât materialul e mai dens, cu atât pierderea e mai mare.",
-      solution: "Microsferele ceramice cu gaz rarefiat creează un traseu sinuos. Lambda echivalent de 0,001 W/mK.",
+      description: "Căldura se transferă direct prin materiale solide: beton, metal, cărămidă sau tencuială. Cu cât suprafața conduce mai ușor energia termică, cu atât pierderile devin mai mari.",
+      solution: "Microsferele ceramice vidate din structura thermX contribuie la întreruperea traseului termic prin stratul aplicat.",
     },
     {
       title: "Convecție",
       percentage: "~25%",
       subtitle: "prin fisuri și rosturi",
-      description: "Aerul cald se scurge prin fisuri, rosturi, joncțiuni neștanșe. Fiecare rost e o cale de evacuare a căldurii.",
-      solution: "thermX se pulverizează ca un strat fluid continuu. Nu există plăci, nu există rosturi.",
+      description: "Aerul cald se poate pierde prin fisuri, rosturi și îmbinări neetanșe. În izolațiile clasice, aceste zone apar frecvent la margini, colțuri sau îmbinări între materiale.",
+      solution: "thermX formează o membrană continuă, aplicată prin pulverizare, care reduce întreruperile prin care aerul poate transporta energia termică.",
     },
   ];
 
@@ -300,14 +305,14 @@ export const ScienceSection = () => {
           <SectionTag>Ce trebuie să blocheze izolația</SectionTag>
 
           <TextReveal
-            text="Izolația clasică ignoră 40% din pierderile termice."
+            text="Nu toată căldura se pierde prin grosime."
             className="font-display font-black text-4xl sm:text-5xl md:text-6xl lg:text-7xl tracking-[-0.03em] leading-[1.05] text-white mb-6 max-w-5xl"
             delay={0.1}
           />
 
           <FadeReveal delay={0.2}>
             <p className="text-white text-lg md:text-xl leading-relaxed max-w-3xl font-sans font-light mb-12">
-              Izolația clasică blochează conducția și parțial convecția — dar ignoră radiația, responsabilă pentru până la 40% din pierderile termice. thermX le blochează pe toate trei.
+              Izolațiile clasice lucrează în principal prin masă și grosime. thermX lucrează la nivelul suprafeței, printr-o membrană nanoceramică reflectivă care reduce transferul termic prin radiație infraroșie.
             </p>
           </FadeReveal>
 
@@ -346,20 +351,20 @@ export const ScienceSection = () => {
 export const SpecsSection = () => {
   const specs = [
     { category: "Performanță Termică", items: [
-      { label: "Interval de operare", value: "-60°C / +260°C", note: "Funcționează de la depozite frigorifice la conducte industriale cu abur." },
-      { label: "Reflexie infraroșu", value: "85%", note: "Până la 40% economie pe factura de energie." },
+      { label: "Interval de operare", value: "-60°C / +260°C", note: "Stabil în aplicații cu temperaturi foarte joase sau ridicate, de la spații frigorifice până la suprafețe industriale." },
+      { label: "Reflexie infraroșu", value: "până la 85%", note: "Punctul forte al tehnologiei: reducerea transferului termic radiant la nivelul suprafeței tratate." },
     ]},
-    { category: "Rezistență Mecanică", items: [
-      { label: "Aderență la substrat", value: "1,84 MPa", note: "De peste 7 ori minimul cerut de standarde (0,25 MPa)." },
-      { label: "Elongație la rupere", value: ">12%", note: "Un metru de membrană se întinde cu 12 cm înainte de cedare." },
+    { category: "REZISTENȚĂ PE SUPORT", items: [
+      { label: "Aderență la suport", value: "1,53–1,84 MPa", note: "Valori documentate pentru metal, beton și lemn, în funcție de tipul substratului." },
+      { label: "Elongație la rupere", value: ">12%", note: "Membrana poate prelua dilatări și micro-mișcări ale suportului, menținând continuitatea stratului în limitele specificate." },
     ]},
-    { category: "Siguranță și Structură", items: [
-      { label: "Densitate", value: "380–410 kg/m³", note: "La 1 mm grosime, doar 0,4 kg/m²." },
-      { label: "Reacție la foc", value: "Clasa A", note: "Material necombustibil. Nu propagă focul, nu se topește." },
+    { category: "STRUCTURĂ ȘI SIGURANȚĂ", items: [
+      { label: "Densitate", value: "380–410 kg/m³", note: "Structură ușoară după uscare. La 1 mm grosime, adaugă aproximativ 0,4 kg/m²." },
+      { label: "Reacție la foc", value: "Clasa A, după uscare", note: "Material cu reacție la foc Clasa A în stare uscată/polimerizată, conform documentației tehnice disponibile și Clasa C pentru material in forma sa lichida inaite de aplicare." },
     ]},
-    { category: "Proprietăți Material", items: [
-      { label: "Permeabilitate vapori", value: "Da", note: "Permite peretelui să respire. Umiditatea se evaporă natural." },
-      { label: "Durabilitate", value: "35+ ani", note: "Polimerizarea continuă în primii ani. Aderența crește de la 2,0 la 3,0 MPa." },
+    { category: "COMPORTAMENT ÎN TIMP", items: [
+      { label: "Permeabilitate la vapori", value: "0,0014 mg/(m·h·Pa)", note: "Membrana are comportament controlat la vapori, contribuind la gestionarea umidității la nivelul stratului aplicat." },
+      { label: "Durabilitate", value: "35+ ani", note: "Conceput pentru utilizare pe termen lung, cu stabilitate a membranei în condiții normale de exploatare." },
     ]},
   ];
 
@@ -369,10 +374,16 @@ export const SpecsSection = () => {
         <SectionTag>Specificații tehnice</SectionTag>
 
         <TextReveal
-          text="Ce spun cifrele."
-          className="font-display font-black text-4xl sm:text-5xl md:text-6xl lg:text-7xl tracking-[-0.03em] leading-[1.05] text-white mb-24 max-w-4xl"
+          text="Performanță într-un strat subțire."
+          className="font-display font-black text-4xl sm:text-5xl md:text-6xl lg:text-7xl tracking-[-0.03em] leading-[1.05] text-white mb-8 max-w-4xl"
           delay={0.1}
         />
+
+        <FadeReveal delay={0.2}>
+          <p className="text-gray-400 text-lg md:text-xl leading-relaxed max-w-3xl font-sans font-light mb-20">
+            thermX nu adaugă volum inutil. După aplicare, membrana trebuie să reziste la temperatură, aderență, mișcări ale suportului, vapori și expunere în timp. Aici se vede diferența dintre un termoizolant conventional și o membrană tehnică.
+          </p>
+        </FadeReveal>
 
         <div className="space-y-20">
           {specs.map((group, gi) => (
@@ -417,11 +428,32 @@ export const SpecsSection = () => {
 // ═══════════════════════════════════════════════════
 export const ApplicationSection = () => {
   const steps = [
-    { num: "01", title: "Pregătire suprafață", desc: "Curățare, uscare, substrat stabil." },
-    { num: "02", title: "Aplicare airless spray", desc: "Pulverizare uniformă — 0,5 mm per strat." },
-    { num: "03", title: "Polimerizare", desc: "Membrană continuă în ore." },
+    { num: "01", title: "Pregătirea suportului", desc: "Suprafața se curăță, se usucă și se stabilizează înainte de aplicare. Aderența membranei depinde de calitatea suportului." },
+    { num: "02", title: "Pulverizare airless", desc: "Membrana se aplică uniform, în straturi controlate, până la grosimea finală recomandată pentru proiect." },
+    { num: "03", title: "Uscare și formare membrană", desc: "După uscare, thermX formează un strat continuu, fără rosturi, adaptat la geometria suprafeței tratate." },
   ];
-  const surfaces = ["Beton", "Metal", "Lemn", "Cărămidă", "Tencuială", "Fibrociment"];
+
+  const row1 = [
+    "Beton",
+    "Cărămidă",
+    "BCA / zidărie celulară",
+    "Tencuială existentă",
+    "Fibrociment",
+    "Metal",
+    "Tablă / acoperișuri metalice"
+  ];
+
+  const row2 = [
+    "Lemn",
+    "OSB / placaj",
+    "Panouri sandwich",
+    "Gips-carton",
+    "Conducte",
+    "Rezervoare / containere / silozuri"
+  ];
+
+  const marquee1 = [...row1, ...row1, ...row1, ...row1];
+  const marquee2 = [...row2, ...row2, ...row2, ...row2];
 
   return (
     <ParallaxSection id="aplicare" className="py-40 md:py-56" speed={0.12}>
@@ -429,12 +461,18 @@ export const ApplicationSection = () => {
         <SectionTag>Proces de aplicare</SectionTag>
 
         <TextReveal
-          text="Simplu. Rapid. Definitiv."
-          className="font-display font-black text-4xl sm:text-5xl md:text-6xl lg:text-7xl tracking-[-0.03em] leading-[1.05] text-white mb-24 max-w-4xl"
+          text="Aplicare controlată, în straturi succesive."
+          className="font-display font-black text-4xl sm:text-5xl md:text-6xl lg:text-7xl tracking-[-0.03em] leading-[1.05] text-white mb-8 max-w-4xl"
           delay={0.1}
         />
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-white/[0.04] rounded-3xl overflow-hidden mb-24">
+        <FadeReveal delay={0.2}>
+          <p className="text-gray-400 text-lg md:text-xl leading-relaxed max-w-3xl font-sans font-light mb-20">
+            thermX se aplică după pregătirea suportului, în grosimea recomandată pentru proiect. Procesul urmărește aderența corectă, distribuția uniformă a materialului și formarea unei membrane continue după uscare.
+          </p>
+        </FadeReveal>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-white/[0.04] rounded-3xl overflow-hidden mb-32">
           {steps.map((step, i) => (
             <FadeReveal key={step.num} delay={0.15 * i}>
               <motion.div
@@ -457,26 +495,81 @@ export const ApplicationSection = () => {
           ))}
         </div>
 
-        <FadeReveal delay={0.2}>
-          <div>
-            <h3 className="font-sans text-xs uppercase tracking-[0.25em] text-gray-500 mb-8">Se aplică pe</h3>
-            <div className="flex flex-wrap gap-3">
-              {surfaces.map((surface, si) => (
-                <motion.span
-                  key={surface}
-                  className="px-5 py-2.5 rounded-full border border-white/[0.06] text-gray-400 font-sans text-sm
-                             hover:border-[#FF4500]/30 hover:text-white transition-all duration-300 cursor-default"
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.4, delay: 0.3 + si * 0.06 }}
-                >
-                  {surface}
-                </motion.span>
-              ))}
-            </div>
+        <div className="pt-24 border-t border-white/[0.06] mt-32 relative overflow-hidden">
+          <div className="max-w-5xl mx-auto text-center mb-16 px-6">
+            <FadeReveal delay={0.1}>
+              <span className="font-sans text-xs sm:text-sm uppercase tracking-[0.3em] text-[#FF4500] mb-6 block font-semibold">
+                Suprafețe compatibile
+              </span>
+              <h4 className="font-display font-black text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-white mb-8 leading-[1.1] tracking-[-0.03em] uppercase">
+                SUPORTURI MINERALE, METALICE ȘI LEMNOASE
+              </h4>
+              <p className="text-gray-300 font-sans text-lg sm:text-xl md:text-2xl leading-relaxed font-light max-w-4xl mx-auto">
+                thermX poate fi aplicat pe mai multe tipuri de suport, în funcție de compatibilitatea materialului, pregătirea suprafeței și condițiile proiectului.
+              </p>
+            </FadeReveal>
           </div>
-        </FadeReveal>
+
+          <FadeReveal delay={0.25}>
+            <div className="w-full relative py-4 space-y-5 overflow-hidden">
+              <div className="absolute inset-y-0 left-0 w-24 sm:w-48 bg-gradient-to-r from-[#0A0A0A] to-transparent z-10 pointer-events-none" />
+              <div className="absolute inset-y-0 right-0 w-24 sm:w-48 bg-gradient-to-l from-[#0A0A0A] to-transparent z-10 pointer-events-none" />
+
+              {/* Row 1: Leftward Marquee */}
+              <div className="flex gap-4 animate-marquee whitespace-nowrap min-w-max">
+                {marquee1.map((item, index) => (
+                  <motion.div
+                    key={`marquee1-${index}`}
+                    className="relative overflow-hidden px-6 py-4 rounded-2xl border border-white/[0.04] bg-[#0C0C0C]/80 backdrop-blur-md hover:border-[#FF4500]/30 transition-all duration-500 group cursor-default inline-flex items-center gap-3"
+                    whileHover={{ 
+                      y: -4, 
+                      scale: 1.02, 
+                      boxShadow: "0 10px 30px -10px rgba(255, 69, 0, 0.15)"
+                    }}
+                  >
+                    <span className="absolute inset-0 bg-gradient-to-tr from-[#FF4500]/05 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#FF4500]/40 group-hover:bg-[#FF4500] group-hover:scale-125 transition-all duration-500 flex-shrink-0" />
+                    <span className="text-gray-400 group-hover:text-white transition-colors duration-500 font-sans text-xs sm:text-sm font-light tracking-wide relative z-10">
+                      {item}
+                    </span>
+                  </motion.div>
+                ))}
+              </div>
+
+              {/* Row 2: Rightward Marquee */}
+              <div className="flex gap-4 animate-marquee-reverse whitespace-nowrap min-w-max">
+                {marquee2.map((item, index) => (
+                  <motion.div
+                    key={`marquee2-${index}`}
+                    className="relative overflow-hidden px-6 py-4 rounded-2xl border border-white/[0.04] bg-[#0C0C0C]/80 backdrop-blur-md hover:border-[#FF4500]/30 transition-all duration-500 group cursor-default inline-flex items-center gap-3"
+                    whileHover={{ 
+                      y: -4, 
+                      scale: 1.02, 
+                      boxShadow: "0 10px 30px -10px rgba(255, 69, 0, 0.15)"
+                    }}
+                  >
+                    <span className="absolute inset-0 bg-gradient-to-tr from-[#FF4500]/05 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#FF4500]/40 group-hover:bg-[#FF4500] group-hover:scale-125 transition-all duration-500 flex-shrink-0" />
+                    <span className="text-gray-400 group-hover:text-white transition-colors duration-500 font-sans text-xs sm:text-sm font-light tracking-wide relative z-10">
+                      {item}
+                    </span>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+          </FadeReveal>
+
+          <FadeReveal delay={0.3}>
+            <div className="mt-12 text-center max-w-4xl mx-auto px-6">
+              <div className="inline-flex items-center gap-3 px-6 py-4 rounded-2xl border border-[#FF4500]/15 bg-[#FF4500]/05 backdrop-blur-md">
+                <span className="w-2 h-2 rounded-full bg-[#FF4500] animate-pulse" />
+                <span className="text-gray-300 font-sans text-xs sm:text-sm font-light tracking-wide">
+                  <strong className="text-white font-medium">Geometrii complexe:</strong> muchii, colțuri, racorduri, suprafețe curbe
+                </span>
+              </div>
+            </div>
+          </FadeReveal>
+        </div>
       </div>
     </ParallaxSection>
   );
@@ -489,22 +582,31 @@ export const ContactSection = () => {
   const { themeProgress } = useScrollCtx();
   const textColor = useTransform(themeProgress, [0, 1], ['#FFFFFF', '#0A0A0A']);
   const subtextColor = useTransform(themeProgress, [0, 1], ['#9CA3AF', '#1A1A1A']);
+  const boxBg = useTransform(themeProgress, [0, 1], ['rgba(255, 255, 255, 0.03)', 'rgba(0, 0, 0, 0.03)']);
+  const boxBorder = useTransform(themeProgress, [0, 1], ['rgba(255, 255, 255, 0.08)', 'rgba(0, 0, 0, 0.08)']);
 
   return (
-    <ParallaxSection id="contact" className="pt-[220px] pb-20 md:py-56" speed={0.1}>
-      <div className="relative z-10 max-w-4xl mx-auto px-6 md:px-12 text-center">
-        <SectionTag delay={0}>Contact</SectionTag>
+    <section id="contact" className="relative z-10 pt-[300px] pb-16 md:pt-[400px] md:pb-24">
+      <div className="relative z-10 max-w-5xl mx-auto px-6 md:px-12 text-center">
+        <SectionTag delay={0}>CONTACT</SectionTag>
 
         <TextReveal
-          text="Calcul termic personalizat în 48h."
-          className="font-display font-black text-2xl sm:text-5xl md:text-6xl lg:text-7xl tracking-[-0.03em] leading-[1.05] mb-4"
+          text="Ai o suprafață de izolat?"
+          className="font-display font-black text-2xl sm:text-4xl md:text-5xl lg:text-6xl tracking-[-0.03em] leading-[1.2] mb-3 sm:whitespace-nowrap"
           style={{ color: textColor }}
           delay={0.1}
         />
 
+        <TextReveal
+          text="Începem cu datele proiectului."
+          className="font-display font-black text-xl sm:text-3xl md:text-4xl lg:text-5xl tracking-[-0.02em] leading-[1.2] mb-6"
+          style={{ color: textColor }}
+          delay={0.2}
+        />
+
         <FadeReveal delay={0.25}>
           <motion.p className="text-sm sm:text-lg font-sans font-light mb-8 max-w-2xl mx-auto leading-relaxed" style={{ color: subtextColor }}>
-            Specificați tipul proiectului, suprafața estimată și locația. Echipa noastră vă va contacta cu o ofertă personalizată.
+            Trimite tipul proiectului, suprafața estimată și materialul suport. Echipa thermX îți va recomanda grosimea, aplicarea și pașii potriviți.
           </motion.p>
         </FadeReveal>
 
@@ -514,18 +616,27 @@ export const ContactSection = () => {
             className="group inline-flex items-center gap-3 px-5 py-2.5 sm:px-10 sm:py-5 bg-[#FF4500] text-white font-sans font-medium text-xs sm:text-base tracking-wide rounded-full
                        hover:shadow-[0_0_60px_rgba(255,69,0,0.4)] transition-all duration-500 hover:scale-105"
           >
-            <span>Trimite proiectul</span>
+            <span>Cere recomandare</span>
             <span className="group-hover:translate-x-2 transition-transform duration-300">→</span>
           </a>
         </FadeReveal>
 
         <FadeReveal delay={0.45}>
-          <motion.p className="mt-20 font-sans text-sm" style={{ color: subtextColor }}>
-            Nano Revolution SRL — Str. Ogorului, Nr 3, Oradea, Bihor 410554
-          </motion.p>
+          <motion.div 
+            className="inline-flex items-center gap-2.5 px-5 py-2.5 rounded-full border backdrop-blur-md mt-[60px] md:mt-[100px]"
+            style={{ 
+              backgroundColor: boxBg,
+              borderColor: boxBorder
+            }}
+          >
+            <span className="w-1.5 h-1.5 rounded-full bg-[#FF4500] animate-pulse flex-shrink-0" />
+            <motion.p className="font-sans text-xs sm:text-sm font-light tracking-wide m-0" style={{ color: subtextColor }}>
+              Nano Revolution SRL — Str. Ogorului, Nr 3, Oradea, Bihor 410554
+            </motion.p>
+          </motion.div>
         </FadeReveal>
       </div>
-    </ParallaxSection>
+    </section>
   );
 };
 

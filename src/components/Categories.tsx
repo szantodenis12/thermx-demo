@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Home, HardHat, Ruler, Factory, ArrowLeft, AlertTriangle, Zap, Shield, Sparkles } from 'lucide-react';
+import { Home, HardHat, Ruler, Factory, Wrench, ArrowLeft, AlertTriangle, Zap, Shield, Sparkles } from 'lucide-react';
 
 // ═══════════════════════════════════════════════════
 // CATEGORIES SECTION (Buttons to Landing Pages)
@@ -9,34 +9,47 @@ export const CategoriesSection = ({ onSelect }: { onSelect?: (category: string) 
     {
       id: 'proprietari',
       title: 'Proprietari',
-      subtitle: 'Persoane Fizice',
+      subtitle: 'PERSOANE FIZICE',
       icon: Home,
-      description: 'Economii masive la facturi și confort sporit pentru casa ta. Soluția ideală pentru spații moderne.',
+      description: 'Pentru locuințe unde contează consumul de energie, confortul interior și intervenția minimă asupra spațiului existent.',
       color: 'from-[#FF4500] to-[#FF4500]',
+      ctaText: 'Vezi aplicații pentru locuințe',
     },
     {
       id: 'constructori',
       title: 'Constructori',
-      subtitle: 'Echipe de Execuție',
+      subtitle: 'ECHIPE DE EXECUȚIE',
       icon: HardHat,
-      description: 'Viteză extremă de aplicare și costuri reduse pe șantier. Eficiență maximă în execuție.',
+      description: 'Pentru proiecte unde timpul de aplicare, reducerea etapelor de montaj și adaptarea la suprafețe complexe influențează direct costul execuției.',
       color: 'from-[#FF4500] to-[#FF4500]',
+      ctaText: 'Vezi aplicații în execuție',
     },
     {
       id: 'arhitecti',
       title: 'Arhitecți',
-      subtitle: 'Proiectanți & Ingineri',
+      subtitle: 'PROIECTARE & INGINERIE',
       icon: Ruler,
-      description: 'Conformitate nZEB și integrare BIM facilă în proiecte. Libertate totală de design.',
+      description: 'Pentru soluții unde grosimea redusă, continuitatea stratului și integrarea pe detalii constructive sunt importante în proiectare.',
       color: 'from-[#FF4500] to-[#FF4500]',
+      ctaText: 'Vezi aplicații în proiectare',
     },
     {
       id: 'industrial',
       title: 'Industrial',
-      subtitle: 'Sectorul B2B',
+      subtitle: 'SECTOR B2B',
       icon: Factory,
-      description: 'Performanță extremă pentru conducte, rezervoare și echipamente în medii dure.',
+      description: 'Pentru conducte, rezervoare, hale, containere și suprafețe tehnice expuse la variații mari de temperatură.',
       color: 'from-[#FF4500] to-[#FF4500]',
+      ctaText: 'Vezi aplicații industriale',
+    },
+    {
+      id: 'instalatori',
+      title: 'Instalatori',
+      subtitle: 'APLICATORI SPECIALIZAȚI',
+      icon: Wrench,
+      description: 'Pentru lucrări pe conducte, trasee tehnice, echipamente, spații greu accesibile și suprafețe unde aplicarea continuă este mai eficientă decât montajul cu elemente rigide.',
+      color: 'from-[#FF4500] to-[#FF4500]',
+      ctaText: 'Vezi aplicații pentru instalații',
     },
   ];
 
@@ -47,22 +60,22 @@ export const CategoriesSection = ({ onSelect }: { onSelect?: (category: string) 
 
   return (
     <section className="py-40 md:py-56 relative z-10">
-      <div className="max-w-6xl mx-auto px-6 md:px-12">
+      <div className="max-w-7xl mx-auto px-6 md:px-8">
         <span className="text-[#FF4500] uppercase tracking-[0.3em] text-[11px] font-sans font-semibold block mb-6 text-center">
-          Aplicații Specifice
+          DOMENII DE APLICARE
         </span>
         <h2 className="font-display font-black text-4xl sm:text-5xl md:text-6xl text-center text-white mb-6 tracking-[-0.03em]">
-          Alege categoria care te interesează
+          Alege contextul proiectului tău.
         </h2>
-        <p className="text-gray-400 text-lg text-center max-w-3xl mx-auto mb-20 font-sans font-light">
-          Informațiile de care ai nevoie, structurate special pentru profilul tău. Descoperă cum thermX revoluționează domeniul tău prin tehnologia nanoceramică.
+        <p className="text-gray-400 text-lg text-center max-w-4xl mx-auto mb-20 font-sans font-light leading-relaxed">
+          thermX poate fi integrat în locuințe, șantiere, proiecte tehnice și aplicații industriale. Fiecare context are cerințe diferite: eficiență energetică, timp de execuție, grosime redusă, continuitate a stratului sau rezistență în condiții dificile.
         </p>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
           {categories.map((cat, i) => (
             <motion.div
               key={cat.id}
-              className="group relative h-[350px] rounded-3xl overflow-hidden cursor-pointer border border-white/[0.08] bg-white/[0.05] backdrop-blur-md hover:border-white/[0.15] transition-all duration-500"
+              className="group relative h-[420px] sm:h-[400px] rounded-3xl overflow-hidden cursor-pointer border border-white/[0.08] bg-white/[0.05] backdrop-blur-md hover:border-white/[0.15] transition-all duration-500"
               whileHover={{ 
                 y: -10,
                 boxShadow: '0 20px 40px -15px rgba(255, 69, 0, 0.3)'
@@ -79,24 +92,24 @@ export const CategoriesSection = ({ onSelect }: { onSelect?: (category: string) 
               {/* Background Gradient on Hover */}
               <div className={`absolute inset-0 bg-gradient-to-br ${cat.color} opacity-0 group-hover:opacity-15 transition-opacity duration-500`} />
               
-              <div className="relative h-full p-8 flex flex-col justify-between z-10">
+              <div className="relative h-full p-6 flex flex-col justify-between z-10">
                 <div>
                   <div className={`w-12 h-12 rounded-2xl bg-gradient-to-br ${cat.color} flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-500 shadow-lg`}>
                     <cat.icon className="w-6 h-6 text-white" />
                   </div>
-                  <span className="text-gray-500 font-sans text-xs uppercase tracking-wider block mb-1">
+                  <span className="text-gray-500 font-sans text-[10px] uppercase tracking-wider block mb-1">
                     {cat.subtitle}
                   </span>
-                  <h3 className="text-white font-display font-bold text-2xl mb-3">
+                  <h3 className="text-white font-display font-bold text-xl mb-3">
                     {cat.title}
                   </h3>
-                  <p className="text-gray-400 font-sans text-sm leading-relaxed">
+                  <p className="text-gray-400 font-sans text-xs leading-relaxed font-light">
                     {cat.description}
                   </p>
                 </div>
 
-                <div className="flex items-center text-white text-sm font-medium opacity-50 group-hover:opacity-100 transition-opacity duration-300">
-                  <span>Vezi detalii dedicate</span>
+                <div className="flex items-center text-white text-[11px] font-medium opacity-50 group-hover:opacity-100 transition-opacity duration-300 mt-4">
+                  <span>{cat.ctaText}</span>
                   <span className="ml-2 group-hover:translate-x-1 transition-transform duration-300">→</span>
                 </div>
               </div>
@@ -305,6 +318,51 @@ export const LandingPage = ({ category, onBack }: { category: string; onBack: ()
       faq: [
         { q: 'Cum se comportă la dilatări termice?', a: 'Datorită elongației mari, membrana urmărește dilatările și contractările conductelor de oțel fără să se crape sau să se desprindă.' },
         { q: 'Se poate aplica pe echipamente în funcțiune?', a: 'Pentru rezultate optime, aplicarea se face pe suprafețe cu temperaturi între +5°C și +120°C. Pentru temperaturi mai mari, sunt necesare proceduri speciale de aplicare în straturi subțiri.' }
+      ]
+    },
+    instalatori: {
+      title: 'Pentru Instalatori',
+      subtitle: 'APLICATORI SPECIALIZAȚI',
+      intro: 'Soluții avansate pentru izolarea conductelor, echipamentelor și a traseelor de instalații greu accesibile. thermX înlocuiește cu succes cochiliile rigide și oferă o etanșare continuă de lungă durată.',
+      problem: {
+        title: 'Dificultatea Izolațiilor Tip Cochilă',
+        desc: 'Materialele convenționale precum cochiliile de vată sau spumă sunt greu de montat la coturi, ramificații și flanșe. Rămân întotdeauna micro-rosturi neetanșe, ceea ce duce la pierderi de energie și condens structural, provocând rugină.'
+      },
+      solution: {
+        title: 'Aplicare Continuă fără Îmbinări',
+        desc: 'Prin pulverizare airless, thermX îmbracă integral orice element de instalații, oricât de complex. Formează o barieră termoizolantă continuă, complet etanșă, eliminând riscul punților termice și prevenind coroziunea sub izolație.'
+      },
+      detailedFeatures: [
+        {
+          icon: Zap,
+          title: 'Izolare rapidă pe geometrii complexe',
+          desc: 'Coturile, flanșele și robineții se izolează în câteva minute, prin simplă pulverizare, economisind ore întregi de manoperă necesare pentru tăierea și montarea materialelor rigide.'
+        },
+        {
+          icon: Sparkles,
+          title: 'Prevenirea Coroziunii sub Izolație (CUI)',
+          desc: 'Membrana thermX face corp comun cu metalul suportului, blocând complet accesul oxigenului și a umidității, prevenind astfel formarea condensului și coroziunea.'
+        },
+        {
+          icon: Shield,
+          title: 'Rezistență ridicată la temperaturi înalte',
+          desc: 'Rezistă în condiții de exploatare continuă de până la +260°C, fiind ideală pentru circuite termice industriale, abur, conducte de apă caldă și echipamente de proces.'
+        },
+        {
+          icon: Shield,
+          title: 'Grosime redusă în spații înguste',
+          desc: 'La doar 1-2 mm grosime, thermX permite izolarea traseelor de conducte amplasate în nișe tehnice înguste, unde izolațiile voluminoase convenționale nu ar avea loc.'
+        }
+      ],
+      technicalSpecs: [
+        { label: 'Eficiență termică', value: 'Maximă', note: 'Etanșare 100% fără punți termice.' },
+        { label: 'Grosime strat', value: '1.0 - 2.0 mm', note: 'Perfect pentru nișe tehnice înguste.' },
+        { label: 'Garanție suport', value: '20+ ani', note: 'Stabilitate totală la vibrații și dilatări.' },
+        { label: 'Aderență metal', value: '1.84 MPa', note: 'Corp comun cu suprafața conductei.' }
+      ],
+      faq: [
+        { q: 'Este rezistent la vibrațiile conductelor?', a: 'Da. Datorită elongației sale ridicate (>12%), membrana thermX preia vibrațiile și dilatările termice mecanice fără a se fisura sau desprinde.' },
+        { q: 'Câte straturi sunt necesare?', a: 'Se recomandă aplicarea în 2-3 straturi succesive pentru a obține o grosime finală de 1.5 - 2 mm, în funcție de cerințele termice ale proiectului.' }
       ]
     }
   };

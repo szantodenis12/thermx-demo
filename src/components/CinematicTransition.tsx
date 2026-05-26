@@ -108,9 +108,8 @@ export function CinematicTransition({ parentProgress }: Props) {
               Ce este thermX
             </span>
             <h2 className="text-4xl md:text-6xl lg:text-7xl font-bold text-corporate-white tracking-tighter leading-[1.05] text-balance font-display">
-              O membrană termoizolantă de doar{" "}
-              <span className="text-thermal-orange">0,5 – 1 mm</span>, aplicată
-              prin pulverizare.
+              Membrană termoizolantă nanoceramică, aplicată prin pulverizare{" "}
+              <span className="text-thermal-orange">într-o grosime controlată</span> de 1–3 mm.
             </h2>
           </motion.div>
 

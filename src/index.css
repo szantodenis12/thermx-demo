@@ -110,3 +110,34 @@ body {
   50%  { transform: translateY(8px); opacity: 0.3; }
   100% { transform: translateY(0); opacity: 1; }
 }
+
+/* ═══════════════════════════════════════════════════
+   INFINITE MARQUEE
+   ═══════════════════════════════════════════════════ */
+@keyframes marquee {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes marquee-reverse {
+  0% { transform: translateX(-50%); }
+  100% { transform: translateX(0%); }
+}
+
+.animate-marquee {
+  display: inline-flex;
+  animation: marquee 65s linear infinite;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
+.animate-marquee-reverse {
+  display: inline-flex;
+  animation: marquee-reverse 65s linear infinite;
+}
+
+.animate-marquee-reverse:hover {
+  animation-play-state: paused;
+}

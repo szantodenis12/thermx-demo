@@ -267,9 +267,9 @@ export const FloatingModel = () => {
 
         scrollGroup.position.copy(pos);
 
-        // Offset to match the user's red circle (below and slightly right)
+        // Offset to align exactly with the dot in GROSIME.
         scrollGroup.position.x += isMobile ? 0.1 : -0.1;
-        scrollGroup.position.y -= isMobile ? 0.3 : 0.08;
+        scrollGroup.position.y += isMobile ? -0.3 : 0.12;
       } else {
         // Fallback position if dot not found
         scrollGroup.position.set(isMobile ? 0 : 0.5, isMobile ? 2.5 : 2.35, 0);
@@ -310,7 +310,7 @@ export const FloatingModel = () => {
 
         modelContainer.scale.set(0.2, 0.2, 0.2); // Size of the red circle
 
-        const logoStateScale = baseScale * 0.48 * scaleMultiplier;
+        const logoStateScale = baseScale * 0.32 * scaleMultiplier;
         model1.scale.set(logoStateScale, logoStateScale, logoStateScale);
         model2.scale.set(logoStateScale, logoStateScale, logoStateScale);
       };
