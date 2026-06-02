@@ -169,19 +169,19 @@ export const ProductSection = () => {
   }, []);
 
   return (
-    <section ref={sectionRef} id="produs" className="relative z-10 h-[400vh]">
+    <section ref={sectionRef} id="produs" className="relative z-10 h-[300vh] md:h-[400vh]">
       <div className="sticky top-0 h-screen flex flex-col justify-center overflow-hidden">
-        <div className="relative max-w-6xl mx-auto px-6 md:px-12 w-full h-[400px]">
+        <div className="relative max-w-6xl mx-auto px-4 sm:px-6 md:px-12 w-full h-[480px] sm:h-[450px] md:h-[400px]">
           
           {/* Title Area */}
           <div 
             ref={titleRef} 
-            className="absolute inset-0 flex flex-col justify-center"
+            className="absolute inset-x-0 top-0 bottom-0 flex flex-col justify-start pt-16 md:justify-center md:pt-0"
           >
             <span className="text-[#FF4500] uppercase tracking-[0.3em] text-[11px] font-sans font-semibold block mb-6">
               Ce este
             </span>
-            <motion.h2 className="font-display font-black text-4xl sm:text-5xl md:text-6xl lg:text-7xl tracking-[-0.03em] leading-[1.05] max-w-4xl" style={{ color: textColor }}>
+            <motion.h2 className="font-display font-black text-2xl sm:text-4xl md:text-5xl lg:text-7xl tracking-[-0.03em] leading-[1.05] max-w-[88%] sm:max-w-4xl mb-4 sm:mb-6" style={{ color: textColor }}>
               Membrană termoizolantă nanoceramică, aplicată prin pulverizare într-o grosime controlată de 1–3 mm.
             </motion.h2>
           </div>
@@ -189,9 +189,9 @@ export const ProductSection = () => {
           {/* Content Area */}
           <div 
             ref={contentRef} 
-            className="absolute inset-0 flex flex-col justify-center"
+            className="absolute inset-x-0 top-0 bottom-0 flex flex-col justify-start pt-16 md:justify-center md:pt-0"
           >
-            <motion.p className="text-lg md:text-xl leading-relaxed max-w-3xl font-sans font-light" style={{ color: subtextColor }}>
+            <motion.p className="text-sm sm:text-base md:text-xl leading-relaxed max-w-[88%] sm:max-w-3xl font-sans font-light" style={{ color: subtextColor }}>
               thermX folosește microsfere ceramice vidate, integrate într-un strat nanoceramic reflectiv aplicat direct pe suprafață. După uscare, formează o membrană continuă, fără rosturi și fără îmbinări între plăci.
               <br /><br />
               Punctul forte al tehnologiei este reducerea transferului termic prin
@@ -203,9 +203,9 @@ export const ProductSection = () => {
           {/* Stats Area */}
           <div 
             ref={statsRef} 
-            className="absolute inset-0 flex flex-col justify-center"
+            className="absolute inset-x-0 top-0 bottom-0 flex flex-col justify-end pb-12 md:justify-center md:pb-0"
           >
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+            <div className="flex sm:grid sm:grid-cols-2 md:grid-cols-3 gap-3 md:gap-8 overflow-x-auto sm:overflow-x-visible pb-4 sm:pb-0 scrollbar-none snap-x snap-mandatory w-full">
               {[
               { prefix: "PÂNĂ LA", value: "40%", label: "Economie de energie", desc: "Prin reflexia radiației infraroșii și reducerea pierderilor termice la nivelul suprafeței." },
                 { prefix: "PÂNĂ LA", value: "80%", label: "Timp de aplicare redus", desc: "Pulverizare rapidă, fără montaj de plăci, dibluri sau elemente mecanice suplimentare." },
@@ -213,13 +213,13 @@ export const ProductSection = () => {
               ].map((stat) => (
                 <motion.div
                   key={stat.value}
-                  className="group relative p-8 rounded-2xl transition-all duration-500 cursor-default backdrop-blur-md"
+                  className="group relative p-5 sm:p-8 rounded-2xl transition-all duration-500 cursor-default backdrop-blur-md min-w-[270px] sm:min-w-0 snap-center"
                   style={{ borderWidth: 1, borderStyle: 'solid', borderColor: cardBorder, backgroundColor: cardBg }}
                 >
                   <span className="block mb-1">
                     <span className="text-[#FF4500] font-display font-bold text-sm md:text-base uppercase tracking-widest">{stat.prefix}</span>
                   </span>
-                  <span className="text-[#FF4500] font-display font-black text-5xl md:text-6xl block mb-3">
+                  <span className="text-[#FF4500] font-display font-black text-4xl sm:text-5xl md:text-6xl block mb-3">
                     {stat.value}
                   </span>
                   <motion.h3 className="font-display font-bold text-lg mb-2" style={{ color: textColor }}>{stat.label}</motion.h3>
@@ -301,40 +301,40 @@ export const ScienceSection = () => {
   return (
     <section ref={sectionRef} id="știință" className="relative h-[300vh]">
       <div className="sticky top-0 h-screen flex flex-col justify-center overflow-hidden">
-        <div className="max-w-6xl mx-auto px-6 md:px-12 w-full">
+        <div className="max-w-6xl mx-auto px-6 md:px-12 w-full flex flex-col justify-center gap-y-2 md:gap-y-0 pt-16 md:pt-0 pb-6 md:pb-0">
           <SectionTag>Ce trebuie să blocheze izolația</SectionTag>
 
           <TextReveal
             text="Nu toată căldura se pierde prin grosime."
-            className="font-display font-black text-4xl sm:text-5xl md:text-6xl lg:text-7xl tracking-[-0.03em] leading-[1.05] text-white mb-6 max-w-5xl"
+            className="font-display font-black text-2xl sm:text-4xl md:text-5xl lg:text-7xl tracking-[-0.03em] leading-[1.05] text-white mb-4 sm:mb-6 max-w-[88%] sm:max-w-5xl"
             delay={0.1}
           />
 
           <FadeReveal delay={0.2}>
-            <p className="text-white text-lg md:text-xl leading-relaxed max-w-3xl font-sans font-light mb-12">
+            <p className="text-white text-sm sm:text-base md:text-xl leading-relaxed max-w-[88%] sm:max-w-3xl font-sans font-light mb-6 md:mb-12">
               Izolațiile clasice lucrează în principal prin masă și grosime. thermX lucrează la nivelul suprafeței, printr-o membrană nanoceramică reflectivă care reduce transferul termic prin radiație infraroșie.
             </p>
           </FadeReveal>
 
-          <div className="relative h-[400px] mt-12">
+          <div className="relative h-[260px] sm:h-[300px] md:h-[400px] mt-4 md:mt-12">
             {mechanisms.map((mech) => (
               <div
                 key={mech.title}
-                className="mech-row absolute inset-0 flex flex-col md:flex-row items-center justify-between gap-12"
+                className="mech-row absolute inset-0 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 md:gap-12"
               >
                 {/* Left: Title and Description */}
                 <div className="md:w-2/3">
-                  <h3 className="font-display font-bold text-3xl text-white mb-4">{mech.title}</h3>
-                  <p className="text-white font-sans text-base leading-relaxed mb-4">{mech.description}</p>
-                  <p className="text-white font-sans text-base leading-relaxed font-medium border-l-2 border-[#FF4500] pl-4">{mech.solution}</p>
+                <h3 className="font-display font-bold text-2xl md:text-3xl text-white mb-3 md:mb-4">{mech.title}</h3>
+                  <p className="text-white font-sans text-sm md:text-base leading-relaxed mb-3 md:mb-4">{mech.description}</p>
+                  <p className="text-white font-sans text-sm md:text-base leading-relaxed font-medium border-l-2 border-[#FF4500] pl-4">{mech.solution}</p>
                 </div>
 
                 {/* Right: Big Percentage */}
-                <div className="min-h-screen relative flex items-center justify-center py-24">
-                  <span className="text-[#FF4500] font-display font-black text-8xl md:text-9xl block">
+                <div className="flex items-center md:flex-col md:items-center justify-start md:justify-center py-2 md:py-24">
+                  <span className="text-[#FF4500] font-display font-black text-6xl md:text-8xl lg:text-9xl block">
                     {mech.percentage}
                   </span>
-                  <span className="text-white font-sans text-sm mt-2">{mech.subtitle}</span>
+                  <span className="text-white font-sans text-xs md:text-sm ml-3 md:ml-0 md:mt-2">{mech.subtitle}</span>
                 </div>
               </div>
             ))}
@@ -369,18 +369,18 @@ export const SpecsSection = () => {
   ];
 
   return (
-    <ParallaxSection id="specificații" className="py-40 md:py-56" speed={0.18}>
+    <ParallaxSection id="specificații" className="py-20 sm:py-28 md:py-40 lg:py-56" speed={0.18}>
       <div className="max-w-6xl mx-auto px-6 md:px-12">
         <SectionTag>Specificații tehnice</SectionTag>
 
         <TextReveal
           text="Performanță într-un strat subțire."
-          className="font-display font-black text-4xl sm:text-5xl md:text-6xl lg:text-7xl tracking-[-0.03em] leading-[1.05] text-white mb-8 max-w-4xl"
+          className="font-display font-black text-2xl sm:text-4xl md:text-5xl lg:text-7xl tracking-[-0.03em] leading-[1.05] text-white mb-6 sm:mb-8 max-w-4xl"
           delay={0.1}
         />
 
         <FadeReveal delay={0.2}>
-          <p className="text-gray-400 text-lg md:text-xl leading-relaxed max-w-3xl font-sans font-light mb-20">
+          <p className="text-gray-400 text-sm sm:text-base md:text-xl leading-relaxed max-w-3xl font-sans font-light mb-10 sm:mb-20">
             thermX nu adaugă volum inutil. După aplicare, membrana trebuie să reziste la temperatură, aderență, mișcări ale suportului, vapori și expunere în timp. Aici se vede diferența dintre un termoizolant conventional și o membrană tehnică.
           </p>
         </FadeReveal>
@@ -456,7 +456,7 @@ export const ApplicationSection = () => {
   const marquee2 = [...row2, ...row2, ...row2, ...row2];
 
   return (
-    <ParallaxSection id="aplicare" className="py-40 md:py-56" speed={0.12}>
+    <ParallaxSection id="aplicare" className="py-20 sm:py-28 md:py-40 lg:py-56" speed={0.12}>
       <div className="max-w-6xl mx-auto px-6 md:px-12">
         <SectionTag>Proces de aplicare</SectionTag>
 
@@ -476,11 +476,11 @@ export const ApplicationSection = () => {
           {steps.map((step, i) => (
             <FadeReveal key={step.num} delay={0.15 * i}>
               <motion.div
-                className="bg-[#0A0A0A]/80 backdrop-blur-md p-10 md:p-14 group cursor-default hover:bg-white/[0.02] transition-colors duration-700"
+                className="bg-[#0A0A0A]/80 backdrop-blur-md p-6 sm:p-10 md:p-14 group cursor-default hover:bg-white/[0.02] transition-colors duration-700"
                 whileHover={{ y: -6 }}
               >
                 <motion.span
-                  className="text-[#FF4500]/20 font-display font-black text-7xl md:text-8xl block mb-6
+                  className="text-[#FF4500]/20 font-display font-black text-5xl sm:text-7xl md:text-8xl block mb-4 md:mb-6
                            group-hover:text-[#FF4500]/50 transition-colors duration-700"
                   whileInView={{ y: [30, 0], opacity: [0, 1] }}
                   viewport={{ once: true }}
@@ -579,42 +579,46 @@ export const ApplicationSection = () => {
 // SECTION: Contact
 // ═══════════════════════════════════════════════════
 export const ContactSection = () => {
-  const { themeProgress } = useScrollCtx();
+  const { themeProgress, openContact } = useScrollCtx();
   const textColor = useTransform(themeProgress, [0, 1], ['#FFFFFF', '#0A0A0A']);
   const subtextColor = useTransform(themeProgress, [0, 1], ['#9CA3AF', '#1A1A1A']);
   const boxBg = useTransform(themeProgress, [0, 1], ['rgba(255, 255, 255, 0.03)', 'rgba(0, 0, 0, 0.03)']);
   const boxBorder = useTransform(themeProgress, [0, 1], ['rgba(255, 255, 255, 0.08)', 'rgba(0, 0, 0, 0.08)']);
 
   return (
-    <section id="contact" className="relative z-10 pt-[300px] pb-16 md:pt-[400px] md:pb-24">
+    <section id="contact" className="relative z-10 pt-[150px] sm:pt-[200px] md:pt-[300px] lg:pt-[400px] pb-16 md:pb-24">
       <div className="relative z-10 max-w-5xl mx-auto px-6 md:px-12 text-center">
         <SectionTag delay={0}>CONTACT</SectionTag>
 
         <TextReveal
           text="Ai o suprafață de izolat?"
-          className="font-display font-black text-2xl sm:text-4xl md:text-5xl lg:text-6xl tracking-[-0.03em] leading-[1.2] mb-3 sm:whitespace-nowrap"
+          className="font-display font-black text-xl sm:text-3xl md:text-4xl lg:text-6xl tracking-[-0.03em] leading-[1.2] mb-2 sm:mb-3"
           style={{ color: textColor }}
           delay={0.1}
         />
 
         <TextReveal
           text="Începem cu datele proiectului."
-          className="font-display font-black text-xl sm:text-3xl md:text-4xl lg:text-5xl tracking-[-0.02em] leading-[1.2] mb-6"
+          className="font-display font-black text-lg sm:text-2xl md:text-3xl lg:text-5xl tracking-[-0.02em] leading-[1.2] mb-4 sm:mb-6"
           style={{ color: textColor }}
           delay={0.2}
         />
 
         <FadeReveal delay={0.25}>
-          <motion.p className="text-sm sm:text-lg font-sans font-light mb-8 max-w-2xl mx-auto leading-relaxed" style={{ color: subtextColor }}>
+          <motion.p className="text-xs sm:text-sm md:text-lg font-sans font-light mb-6 sm:mb-8 max-w-2xl mx-auto leading-relaxed" style={{ color: subtextColor }}>
             Trimite tipul proiectului, suprafața estimată și materialul suport. Echipa thermX îți va recomanda grosimea, aplicarea și pașii potriviți.
           </motion.p>
         </FadeReveal>
 
         <FadeReveal delay={0.35}>
           <a
-            href="mailto:contact@nanorevolution.ro"
+            href="#contact"
+            onClick={(e) => {
+              e.preventDefault();
+              openContact();
+            }}
             className="group inline-flex items-center gap-3 px-5 py-2.5 sm:px-10 sm:py-5 bg-[#FF4500] text-white font-sans font-medium text-xs sm:text-base tracking-wide rounded-full
-                       hover:shadow-[0_0_60px_rgba(255,69,0,0.4)] transition-all duration-500 hover:scale-105"
+                       hover:shadow-[0_0_60px_rgba(255,69,0,0.4)] transition-all duration-500 hover:scale-105 cursor-pointer"
           >
             <span>Cere recomandare</span>
             <span className="group-hover:translate-x-2 transition-transform duration-300">→</span>
@@ -644,7 +648,7 @@ export const ContactSection = () => {
 // FOOTER
 // ═══════════════════════════════════════════════════
 export const Footer = () => (
-  <footer className="relative py-12 border-t border-white/[0.04]">
+  <footer className="relative py-12 border-t border-black/[0.04]">
     <div className="max-w-6xl mx-auto px-6 md:px-12 flex flex-col items-center gap-6 text-center">
       <div className="flex flex-col md:flex-row justify-center items-center gap-4 md:gap-8">
         <div className="flex items-center">
@@ -655,8 +659,8 @@ export const Footer = () => (
           © {new Date().getFullYear()} Nano Revolution SRL. Toate drepturile rezervate.
         </span>
         <div className="flex items-center gap-6">
-          <a href="#" className="text-gray-600 font-sans text-xs hover:text-white transition-colors">Fișă Tehnică</a>
-          <a href="#" className="text-gray-600 font-sans text-xs hover:text-white transition-colors">Certificări</a>
+          <a href="#" className="text-gray-600 font-sans text-xs hover:text-black transition-colors">Fișă Tehnică</a>
+          <a href="#" className="text-gray-600 font-sans text-xs hover:text-black transition-colors">Certificări</a>
         </div>
       </div>
       <div className="text-gray-600 font-sans text-xs">

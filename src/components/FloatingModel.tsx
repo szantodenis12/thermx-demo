@@ -30,13 +30,14 @@ export const FloatingModel = () => {
     const scene = new THREE.Scene();
 
     // ── Camera ──
+    const isMobileDevice = window.innerWidth < 768;
     const camera = new THREE.PerspectiveCamera(
-      45,
+      isMobileDevice ? 55 : 45,
       window.innerWidth / window.innerHeight,
       0.1,
       100
     );
-    camera.position.set(0, 0.5, 8);
+    camera.position.set(0, 0.5, isMobileDevice ? 7 : 8);
 
     // ── Renderer — performance optimized ──
     const renderer = new THREE.WebGLRenderer({
@@ -154,7 +155,7 @@ export const FloatingModel = () => {
       if (!model1 || !model2) return;
 
       const isMobile = window.innerWidth < 768;
-      const scaleMultiplier = isMobile ? 0.6 : 1.0;
+      const scaleMultiplier = isMobile ? 0.85 : 1.0;
 
       // Normalize size using model1 (sphere_white_opaque) as reference
       const box = new THREE.Box3().setFromObject(model1);
@@ -268,11 +269,11 @@ export const FloatingModel = () => {
         scrollGroup.position.copy(pos);
 
         // Offset to align exactly with the dot in GROSIME.
-        scrollGroup.position.x += isMobile ? 0.1 : -0.1;
-        scrollGroup.position.y += isMobile ? -0.3 : 0.12;
+        scrollGroup.position.x += isMobile ? 0 : -0.1;
+        scrollGroup.position.y += isMobile ? 0.35 : 0.12;
       } else {
         // Fallback position if dot not found
-        scrollGroup.position.set(isMobile ? 0 : 0.5, isMobile ? 2.5 : 2.35, 0);
+        scrollGroup.position.set(isMobile ? 0 : 0.5, isMobile ? 2.75 : 2.35, 0);
       }
 
       // Intro animation for 3D model (fade opacity for model1 only initially)
@@ -308,9 +309,10 @@ export const FloatingModel = () => {
 
         idleGroup.rotation.set(0, 0, 0);
 
-        modelContainer.scale.set(0.2, 0.2, 0.2); // Size of the red circle
+        const logoSize = isMobile ? 0.175 : 0.2;
+        modelContainer.scale.set(logoSize, logoSize, logoSize); // Size of the red circle
 
-        const logoStateScale = baseScale * 0.32 * scaleMultiplier;
+        const logoStateScale = baseScale * (isMobile ? 0.38 : 0.32) * scaleMultiplier;
         model1.scale.set(logoStateScale, logoStateScale, logoStateScale);
         model2.scale.set(logoStateScale, logoStateScale, logoStateScale);
       };
@@ -346,7 +348,7 @@ export const FloatingModel = () => {
     // ── Scroll animation phases ──
     function setupScrollAnimation(group: THREE.Group, baseScale: number, _resetToLogoState: () => void, spinGroup: THREE.Group, root: THREE.Group, m1: THREE.Group, sMesh: THREE.Mesh | null) {
       const isMobile = window.innerWidth < 768;
-      const scaleMultiplier = isMobile ? 0.6 : 1.0;
+      const scaleMultiplier = isMobile ? 0.65 : 1.0;
 
       // 1. TIMELINE DOM: Triggers exactly on the #hero section bounds
       const tlDOM = gsap.timeline({
@@ -441,7 +443,7 @@ export const FloatingModel = () => {
         // --- 3D Hero Transition ---
         tlHero3D.to(
           group.position,
-          { x: isMobile ? 0 : 3.5, y: isMobile ? 0.8 : 0.5, z: isMobile ? -2 : -2, duration: 1, ease: 'power3.inOut' },
+          { x: isMobile ? 0 : 4.5, y: isMobile ? -1.0 : 0.5, z: isMobile ? -0.5 : -2, duration: 1, ease: 'power3.inOut' },
           0
         );
 
@@ -499,12 +501,17 @@ export const FloatingModel = () => {
       });
 
       // Step 1: Product Section (Stays Volcano)
-      tlGlobal3D.to(group.position, { x: isMobile ? 0 : 3.2, y: isMobile ? 0.5 : 0.2, z: isMobile ? -4 : -3.5, ease: 'power1.inOut' });
+      tlGlobal3D.to(group.position, { x: isMobile ? 0 : 3.2, y: isMobile ? -0.8 : 0.2, z: isMobile ? -1 : -3.5, ease: 'power1.inOut' });
       tlGlobal3D.to(group.rotation, { x: -0.05, y: Math.PI * (isMobile ? 1.0 : 0.5), z: -0.02, ease: 'power1.inOut' }, "<");
       tlGlobal3D.to(root.scale, { x: baseScale * 1.7 * 1.2 * scaleMultiplier, y: baseScale * 1.7 * 1.2 * scaleMultiplier, z: baseScale * 1.7 * 1.2 * scaleMultiplier, ease: 'power1.inOut' }, "<");
 
+      // Step 1.5: Product Stats Active (Model floats to top on mobile to avoid cards at bottom)
+      if (isMobile) {
+        tlGlobal3D.to(group.position, { x: 0, y: 1.1, z: -1.5, ease: 'power1.inOut', duration: 0.5 });
+      }
+
       // Step 2: Science Section (Transition back to White)
-      tlGlobal3D.to(group.position, { x: isMobile ? 0 : -2.5, y: isMobile ? 0.8 : 0.5, z: isMobile ? -5 : -5.5, ease: 'power2.inOut' });
+      tlGlobal3D.to(group.position, { x: isMobile ? 0 : -2.5, y: isMobile ? 1.0 : 0.5, z: isMobile ? -1.5 : -5.5, ease: 'power2.inOut' });
       tlGlobal3D.to(group.rotation, { x: 0.2, y: Math.PI * (isMobile ? 2.0 : 1.5), z: 0.1, ease: 'power2.inOut' }, "<");
       tlGlobal3D.to(root.scale, { x: baseScale * 1.7 * 1.8 * scaleMultiplier, y: baseScale * 1.7 * 1.8 * scaleMultiplier, z: baseScale * 1.7 * 1.8 * scaleMultiplier, ease: 'power2.inOut' }, "<");
 
@@ -525,7 +532,7 @@ export const FloatingModel = () => {
       }
 
       // Step 3: Specs Section (Transition back to Volcano)
-      tlGlobal3D.to(group.position, { x: isMobile ? 0 : 2.5, y: isMobile ? -0.1 : -0.3, z: isMobile ? -5 : -5.5, ease: 'power1.inOut' });
+      tlGlobal3D.to(group.position, { x: isMobile ? 0 : 2.5, y: isMobile ? -0.8 : -0.3, z: isMobile ? -2 : -5.5, ease: 'power1.inOut' });
       tlGlobal3D.to(group.rotation, { x: -0.1, y: Math.PI * (isMobile ? 3.0 : 2.5), z: 0.05, ease: 'power1.inOut' }, "<");
       tlGlobal3D.to(root.scale, { x: baseScale * 1.7 * 1.8 * scaleMultiplier, y: baseScale * 1.7 * 1.8 * scaleMultiplier, z: baseScale * 1.7 * 1.8 * scaleMultiplier, ease: 'power1.inOut' }, "<");
 
@@ -546,7 +553,7 @@ export const FloatingModel = () => {
       }
 
       // Step 4: Contact Section (Stays Volcano)
-      tlGlobal3D.to(group.position, { x: 0, y: isMobile ? 1.5 : 0.2, z: isMobile ? -5 : -5, ease: 'power2.inOut' });
+      tlGlobal3D.to(group.position, { x: 0, y: isMobile ? -0.8 : 0.2, z: isMobile ? -1.5 : -5, ease: 'power2.inOut' });
       tlGlobal3D.to(group.rotation, { x: 0.05, y: Math.PI * (isMobile ? 4.0 : 4.0), z: 0, ease: 'power2.inOut' }, "<");
       tlGlobal3D.to(root.scale, {
         x: baseScale * 1.7 * 1.6 * scaleMultiplier * (isMobile ? 0.7 : 1.0),

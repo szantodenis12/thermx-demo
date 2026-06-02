@@ -2,7 +2,7 @@ import { motion, useTransform, useMotionValue } from 'framer-motion';
 import { useScrollCtx } from '../App';
 
 export const Navbar = () => {
-  const { themeProgress } = useScrollCtx();
+  const { themeProgress, openContact } = useScrollCtx();
   const fallbackProgress = useMotionValue(0);
   const activeProgress = themeProgress || fallbackProgress;
 
@@ -33,8 +33,12 @@ export const Navbar = () => {
       {/* CTA */}
       <motion.a 
         href="#contact" 
+        onClick={(e) => {
+          e.preventDefault();
+          openContact();
+        }}
         className="text-xs font-sans font-medium tracking-widest uppercase px-5 py-2.5 rounded-full border transition-all duration-500
-                   hover:bg-[#FF4500] hover:text-white hover:border-[#FF4500] hover:shadow-[0_0_30px_rgba(255,69,0,0.3)]"
+                   hover:bg-[#FF4500] hover:text-white hover:border-[#FF4500] hover:shadow-[0_0_30px_rgba(255,69,0,0.3)] cursor-pointer"
         style={{ 
           color: logoColor,
           borderColor: btnBorderColor,

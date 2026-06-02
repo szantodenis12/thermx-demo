@@ -6,11 +6,13 @@ import { AnimatedBackground } from './components/AnimatedBackground';
 import { FloatingModel } from './components/FloatingModel';
 import { ProductSection, ScienceSection, SpecsSection, ApplicationSection, ContactSection, Footer } from './components/Sections';
 import { CategoriesSection, LandingPage } from './components/Categories';
+import { ContactModal } from './components/ContactModal';
 
 // ── Global scroll context ──
 // Every component can read the current "theme progress" (0 = dark, 1 = light)
 interface ScrollCtx {
   themeProgress: MotionValue<number>; // 0..1, 0=dark, 1=light
+  openContact: () => void;
 }
 export const ScrollContext = createContext<ScrollCtx>({} as ScrollCtx);
 export const useScrollCtx = () => useContext(ScrollContext);
@@ -44,11 +46,14 @@ function App() {
   );
 
   const [currentCategory, setCurrentCategory] = useState<string | null>(null);
+  const [isContactOpen, setIsContactOpen] = useState(false);
+
+  const openContact = () => setIsContactOpen(true);
 
   useEffect(() => {
     const handleHashChange = () => {
       const hash = window.location.hash.replace('#', '');
-      const validCategories = ['proprietari', 'constructori', 'arhitecti', 'industrial'];
+      const validCategories = ['proprietari', 'constructori', 'arhitecti', 'industrial', 'instalatori'];
       if (validCategories.includes(hash)) {
         setCurrentCategory(hash);
       } else {
@@ -61,7 +66,7 @@ function App() {
   }, []);
 
   return (
-    <ScrollContext.Provider value={{ themeProgress }}>
+    <ScrollContext.Provider value={{ themeProgress, openContact }}>
       <main className="relative w-full font-sans bg-[#0A0A0A]">
         {/* Fixed animated background — reads themeProgress for colors */}
         <AnimatedBackground />
@@ -100,6 +105,9 @@ function App() {
         {currentCategory && (
           <LandingPage category={currentCategory} onBack={() => setCurrentCategory(null)} />
         )}
+
+        {/* Contact Form Modal */}
+        <ContactModal isOpen={isContactOpen} onClose={() => setIsContactOpen(false)} />
       </main>
     </ScrollContext.Provider>
   );

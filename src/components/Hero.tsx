@@ -1,7 +1,9 @@
 import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
 import { useRef } from 'react';
+import { useScrollCtx } from '../App';
 
 export const Hero = () => {
+  const { openContact } = useScrollCtx();
   const sectionRef = useRef<HTMLDivElement>(null);
 
   // Track this section's scroll progress
@@ -29,9 +31,15 @@ export const Hero = () => {
 
   const scrollIndicatorOpacity = useTransform(smooth, [0, 0.15], [1, 0]);
 
-  // Character-by-character animation for the title
-  const title = "IZOLAȚIA NU ÎNSEAMNĂ DOAR GROSIME .";
-  const chars = title.split("");
+  // Structured word list with global index offsets to prevent individual character wrapping
+  const wordsData = [
+    { word: "IZOLAȚIA", startIdx: 0, hasSpaceAfter: true },
+    { word: "NU", startIdx: 9, hasSpaceAfter: true },
+    { word: "ÎNSEAMNĂ", startIdx: 12, hasSpaceAfter: true, hasBrAfter: true },
+    { word: "DOAR", startIdx: 21, hasSpaceAfter: true },
+    { word: "GROSIME", startIdx: 26, hasSpaceAfter: true },
+    { word: ".", startIdx: 34, hasSpaceAfter: false }
+  ];
 
   return (
     <section
@@ -43,7 +51,7 @@ export const Hero = () => {
 
         {/* Tag line — fastest parallax (disappears first) */}
         <motion.span
-          className="block text-[#FF4500] uppercase tracking-[0.35em] text-[11px] md:text-xs font-sans font-semibold mb-10"
+          className="block text-[#FF4500] uppercase tracking-[0.35em] text-[10px] md:text-xs font-sans font-semibold mb-6 md:mb-10"
           style={{ y: tagY, opacity: tagOpacity }}
           initial={{ opacity: 0, y: 20, filter: 'blur(6px)' }}
           animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
@@ -52,32 +60,34 @@ export const Hero = () => {
           MEMBRANĂ NANOCERAMICĂ TERMOIZOLANTĂ
         </motion.span>
 
-        {/* Title — character by character reveal with blur */}
+        {/* Title — word-by-word wrapping, char-by-char reveal */}
         <motion.h1
-          className="mb-10 perspective-[1000px] leading-[1.18]"
+          className="mb-6 md:mb-10 perspective-[1000px] leading-[1.18]"
           style={{ y: titleY, opacity: titleOpacity, scale: titleScale }}
         >
-          <span className="inline-block">
-            {chars.map((char, i) => (
-              <span key={i}>
-                <motion.span
-                  id={i === 34 ? "hero-dot" : undefined}
-                  className="inline-block text-white font-display font-black text-[clamp(2rem,5vw,5rem)] leading-[1.18] tracking-[0.01em]"
-                  initial={{ opacity: 0, y: 40, rotateX: -50, filter: 'blur(10px)' }}
-                  animate={{ opacity: i === 34 ? 0 : 1, y: 0, rotateX: 0, filter: 'blur(0px)' }}
-                  transition={{
-                    duration: 0.8,
-                    delay: 0.3 + i * 0.025,
-                    ease: [0.22, 1, 0.36, 1],
-                  }}
-                  style={{
-                    // Preserve whitespace for spaces
-                    whiteSpace: char === ' ' ? 'pre' : undefined,
-                  }}
-                >
-                  {char === ' ' ? '\u00A0' : char}
-                </motion.span>
-                {i === 20 && <br />}
+          <span className="flex flex-wrap justify-center gap-x-2 md:gap-x-5 gap-y-1.5 md:gap-y-0">
+            {wordsData.map((wordObj, wIdx) => (
+              <span key={wIdx} className="inline-flex items-center whitespace-nowrap">
+                {wordObj.word.split("").map((char, charIdx) => {
+                  const globalIdx = wordObj.startIdx + charIdx;
+                  return (
+                    <motion.span
+                      key={charIdx}
+                      id={globalIdx === 34 ? "hero-dot" : undefined}
+                      className="inline-block text-white font-display font-black text-[clamp(1.5rem,6vw,4.5rem)] leading-[1.18] tracking-[0.01em]"
+                      initial={{ opacity: 0, y: 40, rotateX: -50, filter: 'blur(10px)' }}
+                      animate={{ opacity: globalIdx === 34 ? 0 : 1, y: 0, rotateX: 0, filter: 'blur(0px)' }}
+                      transition={{
+                        duration: 0.8,
+                        delay: 0.3 + globalIdx * 0.025,
+                        ease: [0.22, 1, 0.36, 1],
+                      }}
+                    >
+                      {char}
+                    </motion.span>
+                  );
+                })}
+                {wordObj.hasBrAfter && <br className="hidden md:inline" />}
               </span>
             ))}
           </span>
@@ -85,7 +95,7 @@ export const Hero = () => {
 
         {/* Subtitle — medium parallax speed */}
         <motion.p
-          className="text-gray-400 max-w-2xl mx-auto text-base md:text-lg lg:text-xl font-sans font-light leading-relaxed"
+          className="text-gray-400 max-w-2xl mx-auto text-sm md:text-lg lg:text-xl font-sans font-light leading-relaxed"
           style={{ y: subtitleY, opacity: subtitleOpacity }}
           initial={{ opacity: 0, y: 30, filter: 'blur(6px)' }}
           animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
@@ -96,7 +106,7 @@ export const Hero = () => {
 
         {/* CTA — slowest parallax (stays longest) */}
         <motion.div
-          className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-14"
+          className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 mt-8 sm:mt-14"
           style={{ y: ctaY, opacity: ctaOpacity }}
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -112,8 +122,12 @@ export const Hero = () => {
           </a>
           <a
             href="#contact"
+            onClick={(e) => {
+              e.preventDefault();
+              openContact();
+            }}
             className="px-8 py-4 text-gray-300 font-sans font-medium text-sm tracking-wide border border-white/10 rounded-full
-                       hover:border-white/30 hover:text-white transition-all duration-500 hover:scale-105"
+                       hover:border-white/30 hover:text-white transition-all duration-500 hover:scale-105 cursor-pointer"
           >
             Solicită ofertă →
           </a>
