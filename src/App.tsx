@@ -4,7 +4,7 @@ import { Hero } from './components/Hero';
 import { Navbar } from './components/Navbar';
 import { AnimatedBackground } from './components/AnimatedBackground';
 import { FloatingModel } from './components/FloatingModel';
-import { ProductSection, ScienceSection, SpecsSection, ApplicationSection, ContactSection, Footer } from './components/Sections';
+import { ProductSection, VideoSection, ScienceSection, SpecsSection, ApplicationSection, ContactSection, Footer } from './components/Sections';
 import { CategoriesSection, LandingPage } from './components/Categories';
 import { ContactModal } from './components/ContactModal';
 import { NanoRevolution } from './components/NanoRevolution';
@@ -177,6 +177,9 @@ function ThermxLayout({
         <div ref={lightSectionRef}>
           <ProductSection />
         </div>
+
+        {/* Video Demonstration (Ice Test) */}
+        <VideoSection />
 
         {/* Back to dark sections */}
         <ScienceSection />
