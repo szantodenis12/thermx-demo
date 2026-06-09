@@ -95,9 +95,11 @@ function ThermxLayout({
         {isLoading && (
           <motion.div
             key="thermx-loader"
-            initial={{ opacity: 1 }}
+            initial={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ 
               opacity: 0,
+              y: -40,
+              scale: 0.97,
               transition: { duration: 0.8, ease: [0.76, 0, 0.24, 1] } 
             }}
             className="fixed inset-0 z-[100] bg-[#0A0A0A] flex flex-col items-center justify-center pointer-events-auto"
@@ -144,27 +146,9 @@ function ThermxLayout({
                 }}
               />
             </motion.div>
-
-            {/* Loading status text */}
-            <motion.div 
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ 
-                opacity: 1, 
-                y: 0,
-                transition: { delay: 0.3, duration: 0.8 }
-              }}
-              className="mt-10 flex flex-col items-center gap-2.5 relative z-10"
-            >
-              <span className="font-display font-bold text-xs uppercase tracking-[0.35em] text-[#FF4500] animate-pulse">
-                Inițializare thermX
-              </span>
-              <span className="font-sans text-[9px] text-gray-500 uppercase tracking-[0.25em]">
-                Se încarcă experiența 3D...
-              </span>
-            </motion.div>
             
             {/* Subtle loading line */}
-            <div className="mt-8 w-36 h-[1px] bg-white/5 rounded-full overflow-hidden relative">
+            <div className="mt-12 w-36 h-[1px] bg-white/5 rounded-full overflow-hidden relative z-10">
               <motion.div 
                 className="absolute left-0 top-0 h-full bg-[#FF4500]"
                 initial={{ width: "0%" }}

@@ -50,7 +50,7 @@ export const NanoRevolution = () => {
           animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
           transition={{ duration: 1, delay: 0.6 }}
         >
-          Dezvoltăm și implementăm tehnologii nanoceramice avansate pentru eficiență energetică extremă, durabilitate sporită și protecție termică în sectoarele civil, industrial și militar.
+          Dezvoltăm și aducem pe piață produse revoluționare bazate pe nanomateriale, concepute special pentru a optimiza procesele industriale, a moderniza construcțiile și a îmbunătăți calitatea vieții de zi cu zi.
         </motion.p>
 
         <motion.div
