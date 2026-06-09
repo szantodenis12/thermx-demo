@@ -2,7 +2,7 @@ import { motion, useTransform, useMotionValue } from 'framer-motion';
 import { useScrollCtx } from '../App';
 
 export const Navbar = () => {
-  const { themeProgress, openContact } = useScrollCtx();
+  const { themeProgress, openContact, navigateTo } = useScrollCtx();
   const fallbackProgress = useMotionValue(0);
   const activeProgress = themeProgress || fallbackProgress;
 
@@ -14,7 +14,15 @@ export const Navbar = () => {
   return (
     <nav className="fixed top-0 left-0 w-full px-6 md:px-12 py-5 flex justify-between items-center z-50">
       {/* Logo */}
-      <a href="#" className="flex items-center" id="nav-logo-anchor">
+      <a 
+        href="/" 
+        onClick={(e) => {
+          e.preventDefault();
+          navigateTo('/');
+        }}
+        className="flex items-center" 
+        id="nav-logo-anchor"
+      >
         <motion.span 
           id="nav-text-therm"
           className="font-display font-black text-xl tracking-tight opacity-0"

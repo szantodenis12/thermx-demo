@@ -65,10 +65,10 @@ export const CategoriesSection = ({ onSelect }: { onSelect?: (category: string) 
         <span className="text-[#FF4500] uppercase tracking-[0.3em] text-[11px] font-sans font-semibold block mb-6 text-center">
           DOMENII DE APLICARE
         </span>
-        <h2 className="font-display font-black text-4xl sm:text-5xl md:text-6xl text-center text-white mb-6 tracking-[-0.03em]">
+        <h2 className="font-display font-black text-3xl sm:text-5xl md:text-6xl text-center text-white mb-6 tracking-[-0.03em]">
           Alege contextul proiectului tău.
         </h2>
-        <p className="text-gray-400 text-lg text-center max-w-4xl mx-auto mb-20 font-sans font-light leading-relaxed">
+        <p className="text-gray-400 text-sm sm:text-lg text-center max-w-4xl mx-auto mb-20 font-sans font-light leading-relaxed">
           thermX poate fi integrat în locuințe, șantiere, proiecte tehnice și aplicații industriale. Fiecare context are cerințe diferite: eficiență energetică, timp de execuție, grosime redusă, continuitate a stratului sau rezistență în condiții dificile.
         </p>
 

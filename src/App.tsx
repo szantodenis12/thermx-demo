@@ -1,5 +1,5 @@
 import { useRef, createContext, useContext, useEffect, useState } from 'react';
-import { useScroll, useTransform, useSpring, MotionValue } from 'framer-motion';
+import { useScroll, useTransform, useSpring, MotionValue, useMotionValue, AnimatePresence, motion } from 'framer-motion';
 import { Hero } from './components/Hero';
 import { Navbar } from './components/Navbar';
 import { AnimatedBackground } from './components/AnimatedBackground';
@@ -7,17 +7,46 @@ import { FloatingModel } from './components/FloatingModel';
 import { ProductSection, ScienceSection, SpecsSection, ApplicationSection, ContactSection, Footer } from './components/Sections';
 import { CategoriesSection, LandingPage } from './components/Categories';
 import { ContactModal } from './components/ContactModal';
+import { NanoRevolution } from './components/NanoRevolution';
 
 // ── Global scroll context ──
 // Every component can read the current "theme progress" (0 = dark, 1 = light)
 interface ScrollCtx {
   themeProgress: MotionValue<number>; // 0..1, 0=dark, 1=light
   openContact: () => void;
+  currentPath: string;
+  navigateTo: (path: string) => void;
 }
 export const ScrollContext = createContext<ScrollCtx>({} as ScrollCtx);
 export const useScrollCtx = () => useContext(ScrollContext);
 
-function App() {
+// ── Thermx Layout Wrapper ──
+// This component only mounts when route is /thermx.
+// Because of this, target refs are guaranteed to exist when hooks mount,
+// allowing useScroll to bind correctly to the DOM elements instead of window/null.
+function ThermxLayout({
+  globalThemeProgress,
+  setCurrentCategory,
+}: {
+  globalThemeProgress: MotionValue<number>;
+  setCurrentCategory: (category: string | null) => void;
+}) {
+  const [isTimeoutDone, setIsTimeoutDone] = useState(false);
+  const [isModelLoaded, setIsModelLoaded] = useState(false);
+
+  useEffect(() => {
+    setIsTimeoutDone(false);
+    setIsModelLoaded(false);
+
+    const timer = setTimeout(() => {
+      setIsTimeoutDone(true);
+    }, 2000); // 2 seconds minimum loader duration
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  const isLoading = !isTimeoutDone || !isModelLoaded;
+
   const lightSectionRef = useRef<HTMLDivElement>(null);
   const contactSectionRef = useRef<HTMLDivElement>(null);
 
@@ -45,8 +74,149 @@ function App() {
     { stiffness: 120, damping: 30, mass: 0.3 }
   );
 
+  // Sync local spring progress with the stable global MotionValue
+  useEffect(() => {
+    globalThemeProgress.set(themeProgress.get());
+    
+    const unsubscribe = themeProgress.on("change", (latest) => {
+      globalThemeProgress.set(latest);
+    });
+    
+    return () => {
+      unsubscribe();
+      globalThemeProgress.set(0); // Reset global progress to 0 (dark mode) on unmount
+    };
+  }, [themeProgress, globalThemeProgress]);
+
+  return (
+    <>
+      {/* Dynamic Animated Loading Overlay */}
+      <AnimatePresence>
+        {isLoading && (
+          <motion.div
+            key="thermx-loader"
+            initial={{ opacity: 1 }}
+            exit={{ 
+              opacity: 0,
+              transition: { duration: 0.8, ease: [0.76, 0, 0.24, 1] } 
+            }}
+            className="fixed inset-0 z-[100] bg-[#0A0A0A] flex flex-col items-center justify-center pointer-events-auto"
+          >
+            {/* Radial glow background */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-glow opacity-30 blur-3xl pointer-events-none" />
+
+            {/* Icon Container */}
+            <motion.div 
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ 
+                scale: 1, 
+                opacity: 1,
+                transition: { duration: 1, ease: "easeOut" }
+              }}
+              className="relative flex items-center justify-center"
+            >
+              {/* Pulsing ring around icon */}
+              <motion.div
+                animate={{
+                  scale: [1, 1.25, 1],
+                  opacity: [0.2, 0.4, 0.2]
+                }}
+                transition={{
+                  duration: 2.5,
+                  repeat: Infinity,
+                  ease: "easeInOut"
+                }}
+                className="absolute w-32 h-32 rounded-full border border-[#FF4500]/25 pointer-events-none"
+              />
+              
+              {/* The Favicon SVG */}
+              <motion.img 
+                src="/favicon-nano.svg" 
+                alt="Nano Icon" 
+                className="w-20 h-20 relative z-10"
+                animate={{
+                  y: [0, -8, 0]
+                }}
+                transition={{
+                  duration: 3,
+                  repeat: Infinity,
+                  ease: "easeInOut"
+                }}
+              />
+            </motion.div>
+
+            {/* Loading status text */}
+            <motion.div 
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ 
+                opacity: 1, 
+                y: 0,
+                transition: { delay: 0.3, duration: 0.8 }
+              }}
+              className="mt-10 flex flex-col items-center gap-2.5 relative z-10"
+            >
+              <span className="font-display font-bold text-xs uppercase tracking-[0.35em] text-[#FF4500] animate-pulse">
+                Inițializare thermX
+              </span>
+              <span className="font-sans text-[9px] text-gray-500 uppercase tracking-[0.25em]">
+                Se încarcă experiența 3D...
+              </span>
+            </motion.div>
+            
+            {/* Subtle loading line */}
+            <div className="mt-8 w-36 h-[1px] bg-white/5 rounded-full overflow-hidden relative">
+              <motion.div 
+                className="absolute left-0 top-0 h-full bg-[#FF4500]"
+                initial={{ width: "0%" }}
+                animate={{ 
+                  width: isLoading ? "75%" : "100%",
+                  transition: { duration: 2, ease: "easeInOut" }
+                }}
+              />
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* 3D Model — fixed, z-index: 1, renders BEHIND content */}
+      <FloatingModel onLoaded={() => setIsModelLoaded(true)} />
+
+      {/* Content wrapper — z-index 5 ensures all text renders ABOVE the 3D model */}
+      <div className="relative z-[5]">
+        {/* Navbar — reads themeProgress for logo/text color */}
+        <Navbar />
+
+        {/* Hero (dark) */}
+        <Hero />
+
+        {/* This wrapper is what we track for the dark→light→dark transition */}
+        <div ref={lightSectionRef}>
+          <ProductSection />
+        </div>
+
+        {/* Back to dark sections */}
+        <ScienceSection />
+        <SpecsSection />
+        <ApplicationSection />
+        
+        {/* Categories Section */}
+        <CategoriesSection onSelect={setCurrentCategory} />
+        
+        <div ref={contactSectionRef}>
+          <ContactSection />
+        </div>
+        <Footer />
+      </div>
+    </>
+  );
+}
+
+function App() {
+  const globalThemeProgress = useMotionValue(0);
+
   const [currentCategory, setCurrentCategory] = useState<string | null>(null);
   const [isContactOpen, setIsContactOpen] = useState(false);
+  const [currentPath, setCurrentPath] = useState(window.location.pathname);
 
   const openContact = () => setIsContactOpen(true);
 
@@ -65,44 +235,49 @@ function App() {
     return () => window.removeEventListener('hashchange', handleHashChange);
   }, []);
 
+  useEffect(() => {
+    const handlePopState = () => {
+      setCurrentPath(window.location.pathname);
+    };
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
+
+  const navigateTo = (path: string) => {
+    window.history.pushState({}, '', path);
+    setCurrentPath(path);
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  };
+
+  const isThermx = currentPath.toLowerCase() === '/thermx';
+
+  useEffect(() => {
+    if (isThermx) {
+      document.title = 'thermX';
+    } else {
+      document.title = 'NANO REVOLUTION';
+    }
+  }, [isThermx]);
+
   return (
-    <ScrollContext.Provider value={{ themeProgress, openContact }}>
+    <ScrollContext.Provider value={{ themeProgress: globalThemeProgress, openContact, currentPath, navigateTo }}>
       <main className="relative w-full font-sans bg-[#0A0A0A]">
         {/* Fixed animated background — reads themeProgress for colors */}
         <AnimatedBackground />
 
-        {/* 3D Model — fixed, z-index: 1, renders BEHIND content */}
-        <FloatingModel />
-
-        {/* Content wrapper — z-index 5 ensures all text renders ABOVE the 3D model */}
-        <div className="relative z-[5]">
-          {/* Navbar — reads themeProgress for logo/text color */}
-          <Navbar />
-
-          {/* Hero (dark) */}
-          <Hero />
-
-          {/* This wrapper is what we track for the dark→light→dark transition */}
-          <div ref={lightSectionRef}>
-            <ProductSection />
+        {isThermx ? (
+          <ThermxLayout 
+            globalThemeProgress={globalThemeProgress} 
+            setCurrentCategory={setCurrentCategory} 
+          />
+        ) : (
+          <div className="relative z-[5]">
+            <NanoRevolution />
           </div>
-
-          {/* Back to dark sections */}
-          <ScienceSection />
-          <SpecsSection />
-          <ApplicationSection />
-          
-          {/* Categories Section */}
-          <CategoriesSection onSelect={(category) => setCurrentCategory(category)} />
-          
-          <div ref={contactSectionRef}>
-            <ContactSection />
-          </div>
-          <Footer />
-        </div>
+        )}
 
         {/* Full-screen Landing Page Overlay */}
-        {currentCategory && (
+        {isThermx && currentCategory && (
           <LandingPage category={currentCategory} onBack={() => setCurrentCategory(null)} />
         )}
 

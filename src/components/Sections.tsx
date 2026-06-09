@@ -181,7 +181,7 @@ export const ProductSection = () => {
             <span className="text-[#FF4500] uppercase tracking-[0.3em] text-[11px] font-sans font-semibold block mb-6">
               Ce este
             </span>
-            <motion.h2 className="font-display font-black text-2xl sm:text-4xl md:text-5xl lg:text-7xl tracking-[-0.03em] leading-[1.05] max-w-[88%] sm:max-w-4xl mb-4 sm:mb-6" style={{ color: textColor }}>
+            <motion.h2 className="font-display font-black text-3xl sm:text-4xl md:text-5xl lg:text-7xl tracking-[-0.03em] leading-[1.05] max-w-[88%] sm:max-w-4xl mb-4 sm:mb-6" style={{ color: textColor }}>
               Membrană termoizolantă nanoceramică, aplicată prin pulverizare într-o grosime controlată de 1–3 mm.
             </motion.h2>
           </div>
@@ -192,11 +192,11 @@ export const ProductSection = () => {
             className="absolute inset-x-0 top-0 bottom-0 flex flex-col justify-start pt-16 md:justify-center md:pt-0"
           >
             <motion.p className="text-sm sm:text-base md:text-xl leading-relaxed max-w-[88%] sm:max-w-3xl font-sans font-light" style={{ color: subtextColor }}>
-              thermX folosește microsfere ceramice vidate, integrate într-un strat nanoceramic reflectiv aplicat direct pe suprafață. După uscare, formează o membrană continuă, fără rosturi și fără îmbinări între plăci.
+              thermX folosește nanosfere ceramice vidate, integrate într-un strat nanoceramic reflectiv aplicat direct pe suprafață. După uscare, formează o membrană continuă, fără rosturi și fără îmbinări între plăci.
               <br /><br />
               Punctul forte al tehnologiei este reducerea transferului termic prin
-              <motion.span className="font-medium" style={{ color: textColor }}> radiație infraroșie</motion.span>.
-              În același timp, continuitatea membranei ajută la limitarea pierderilor generate de întreruperi, microfisuri și zone greu de acoperit.
+              <motion.span className="font-medium" style={{ color: textColor }}> radiație</motion.span>.
+              În același timp, continuitatea membranei limitează pierderile apărute la întreruperi, microfisuri și zone greu de acoperit.
             </motion.p>
           </div>
 
@@ -207,7 +207,7 @@ export const ProductSection = () => {
           >
             <div className="flex sm:grid sm:grid-cols-2 md:grid-cols-3 gap-3 md:gap-8 overflow-x-auto sm:overflow-x-visible pb-4 sm:pb-0 scrollbar-none snap-x snap-mandatory w-full">
               {[
-              { prefix: "PÂNĂ LA", value: "40%", label: "Economie de energie", desc: "Prin reflexia radiației infraroșii și reducerea pierderilor termice la nivelul suprafeței." },
+                { prefix: "PÂNĂ LA", value: "40%", label: "Economie de energie", desc: "Prin reflexia radiației și reducerea pierderilor termice la nivelul suprafeței." },
                 { prefix: "PÂNĂ LA", value: "80%", label: "Timp de aplicare redus", desc: "Pulverizare rapidă, fără montaj de plăci, dibluri sau elemente mecanice suplimentare." },
                 { prefix: "PÂNĂ LA", value: "30%", label: "Costuri de execuție reduse", desc: "Mai puține materiale auxiliare, mai puține etape și adaptare mai ușoară la suprafețe complexe." },
               ].map((stat) => (
@@ -228,7 +228,6 @@ export const ProductSection = () => {
               ))}
             </div>
           </div>
-
         </div>
       </div>
     </section>
@@ -236,30 +235,30 @@ export const ProductSection = () => {
 };
 
 // ═══════════════════════════════════════════════════
-// SECTION: Science
+// SECTION: Science (Mechanism)
 // ═══════════════════════════════════════════════════
 export const ScienceSection = () => {
   const mechanisms = [
     {
-      title: "Radiație infraroșie",
+      title: "Radiație",
       percentage: "40%",
       subtitle: "din energia pierdută",
-      description: "Invizibilă, dar importantă în bilanțul termic al unei clădiri. thermX reflectă până la 85% din radiația infraroșie, contribuind la reducerea consumului de energie.",
-      solution: "Până la 40% economie de energie în condiții specifice de aplicare.",
+      description: "Invizibilă, dar importantă în bilanțul termic al unei clădiri. Aici intervine thermX: reflectă până la 85% din radiație, în loc să o lase absorbită de suprafață.",
+      solution: "Reflexia radiației până la 85% — reducerea transferului termic radiant la nivelul suprafeței tratate.",
     },
     {
       title: "Conducție",
       percentage: "~35%",
       subtitle: "transfer prin solide",
-      description: "Căldura se transferă direct prin materiale solide: beton, metal, cărămidă sau tencuială. Cu cât suprafața conduce mai ușor energia termică, cu atât pierderile devin mai mari.",
-      solution: "Microsferele ceramice vidate din structura thermX contribuie la întreruperea traseului termic prin stratul aplicat.",
+      description: "Căldura trece direct prin materiale solide: beton, metal, cărămidă, tencuială. Nanosferele ceramice vidate din stratul thermX întrerup acest traseu termic.",
+      solution: "Nanosferele ceramice vidate din stratul thermX întrerup traseul termic prin stratul aplicat.",
     },
     {
       title: "Convecție",
       percentage: "~25%",
       subtitle: "prin fisuri și rosturi",
-      description: "Aerul cald se poate pierde prin fisuri, rosturi și îmbinări neetanșe. În izolațiile clasice, aceste zone apar frecvent la margini, colțuri sau îmbinări între materiale.",
-      solution: "thermX formează o membrană continuă, aplicată prin pulverizare, care reduce întreruperile prin care aerul poate transporta energia termică.",
+      description: "Aerul cald scapă prin fisuri, rosturi și îmbinări neetanșe, frecvent la margini și colțuri. Fiind un strat continuu, thermX nu lasă astfel de întreruperi în strat.",
+      solution: "Membrana continuă a thermX elimină întreruperile prin care aerul transportă energia termică.",
     },
   ];
 
@@ -306,13 +305,13 @@ export const ScienceSection = () => {
 
           <TextReveal
             text="Nu toată căldura se pierde prin grosime."
-            className="font-display font-black text-2xl sm:text-4xl md:text-5xl lg:text-7xl tracking-[-0.03em] leading-[1.05] text-white mb-4 sm:mb-6 max-w-[88%] sm:max-w-5xl"
+            className="font-display font-black text-3xl sm:text-4xl md:text-5xl lg:text-7xl tracking-[-0.03em] leading-[1.05] text-white mb-4 sm:mb-6 max-w-[88%] sm:max-w-5xl"
             delay={0.1}
           />
 
           <FadeReveal delay={0.2}>
             <p className="text-white text-sm sm:text-base md:text-xl leading-relaxed max-w-[88%] sm:max-w-3xl font-sans font-light mb-6 md:mb-12">
-              Izolațiile clasice lucrează în principal prin masă și grosime. thermX lucrează la nivelul suprafeței, printr-o membrană nanoceramică reflectivă care reduce transferul termic prin radiație infraroșie.
+              Izolațiile clasice lucrează prin masă și grosime. thermX lucrează la nivelul suprafeței: o membrană reflectivă care acționează direct asupra căilor prin care se pierde căldura.
             </p>
           </FadeReveal>
 
@@ -351,19 +350,20 @@ export const ScienceSection = () => {
 export const SpecsSection = () => {
   const specs = [
     { category: "Performanță Termică", items: [
+      { label: "Conductivitate termică (λ)", value: "0,001 W/mK", note: "Coeficient de transfer termic redus, valoarea centrală a performanței termice." },
       { label: "Interval de operare", value: "-60°C / +260°C", note: "Stabil în aplicații cu temperaturi foarte joase sau ridicate, de la spații frigorifice până la suprafețe industriale." },
-      { label: "Reflexie infraroșu", value: "până la 85%", note: "Punctul forte al tehnologiei: reducerea transferului termic radiant la nivelul suprafeței tratate." },
+      { label: "Reflexia radiației", value: "până la 85%", note: "Reducerea transferului termic radiant la nivelul suprafeței tratate." },
     ]},
     { category: "REZISTENȚĂ PE SUPORT", items: [
       { label: "Aderență la suport", value: "1,53–1,84 MPa", note: "Valori documentate pentru metal, beton și lemn, în funcție de tipul substratului." },
-      { label: "Elongație la rupere", value: ">12%", note: "Membrana poate prelua dilatări și micro-mișcări ale suportului, menținând continuitatea stratului în limitele specificate." },
+      { label: "Elongație la rupere", value: ">12%", note: "Membrana poate prelua dilatări și micro-mișcări ale suportului, menținând continuitatea stratului." },
     ]},
     { category: "STRUCTURĂ ȘI SIGURANȚĂ", items: [
       { label: "Densitate", value: "380–410 kg/m³", note: "Structură ușoară după uscare. La 1 mm grosime, adaugă aproximativ 0,4 kg/m²." },
-      { label: "Reacție la foc", value: "Clasa A, după uscare", note: "Material cu reacție la foc Clasa A în stare uscată/polimerizată, conform documentației tehnice disponibile și Clasa C pentru material in forma sa lichida inaite de aplicare." },
+      { label: "Reacție la foc", value: "Clasa A1", note: "Material incombustibil în stare uscată/polimerizată (Clasa A1), și Clasa C pentru material în stare lichidă, înainte de aplicare." },
     ]},
     { category: "COMPORTAMENT ÎN TIMP", items: [
-      { label: "Permeabilitate la vapori", value: "0,0014 mg/(m·h·Pa)", note: "Membrana are comportament controlat la vapori, contribuind la gestionarea umidității la nivelul stratului aplicat." },
+      { label: "Permeabilitate la vapori", value: "0,0014 mg/(m·h·Pa)", note: "Comportament controlat la vapori, contribuind la gestionarea umidității la nivelul stratului aplicat." },
       { label: "Durabilitate", value: "35+ ani", note: "Conceput pentru utilizare pe termen lung, cu stabilitate a membranei în condiții normale de exploatare." },
     ]},
   ];
@@ -381,7 +381,7 @@ export const SpecsSection = () => {
 
         <FadeReveal delay={0.2}>
           <p className="text-gray-400 text-sm sm:text-base md:text-xl leading-relaxed max-w-3xl font-sans font-light mb-10 sm:mb-20">
-            thermX nu adaugă volum inutil. După aplicare, membrana trebuie să reziste la temperatură, aderență, mișcări ale suportului, vapori și expunere în timp. Aici se vede diferența dintre un termoizolant conventional și o membrană tehnică.
+            După aplicare, thermX rămâne un strat subțire, dar trebuie să reziste la solicitări reale: temperatură, mișcări ale suportului, vapori și expunere în timp. Valorile de mai jos arată cum se comportă la fiecare.
           </p>
         </FadeReveal>
 
@@ -428,9 +428,9 @@ export const SpecsSection = () => {
 // ═══════════════════════════════════════════════════
 export const ApplicationSection = () => {
   const steps = [
-    { num: "01", title: "Pregătirea suportului", desc: "Suprafața se curăță, se usucă și se stabilizează înainte de aplicare. Aderența membranei depinde de calitatea suportului." },
+    { num: "01", title: "Pregătirea suportului", desc: "Suprafața se curăță, se usucă și se stabilizează înainte de aplicare. Aderentă membranei depinde de calitatea suportului." },
     { num: "02", title: "Pulverizare airless", desc: "Membrana se aplică uniform, în straturi controlate, până la grosimea finală recomandată pentru proiect." },
-    { num: "03", title: "Uscare și formare membrană", desc: "După uscare, thermX formează un strat continuu, fără rosturi, adaptat la geometria suprafeței tratate." },
+    { num: "03", title: "Uscare și formarea membranei", desc: "După uscare, thermX formează un strat continuu, adaptat la geometria suprafeței tratate." },
   ];
 
   const row1 = [
@@ -462,12 +462,12 @@ export const ApplicationSection = () => {
 
         <TextReveal
           text="Aplicare controlată, în straturi succesive."
-          className="font-display font-black text-4xl sm:text-5xl md:text-6xl lg:text-7xl tracking-[-0.03em] leading-[1.05] text-white mb-8 max-w-4xl"
+          className="font-display font-black text-3xl sm:text-5xl md:text-6xl lg:text-7xl tracking-[-0.03em] leading-[1.05] text-white mb-8 max-w-4xl"
           delay={0.1}
         />
 
         <FadeReveal delay={0.2}>
-          <p className="text-gray-400 text-lg md:text-xl leading-relaxed max-w-3xl font-sans font-light mb-20">
+          <p className="text-gray-400 text-sm sm:text-base md:text-xl leading-relaxed max-w-3xl font-sans font-light mb-20">
             thermX se aplică după pregătirea suportului, în grosimea recomandată pentru proiect. Procesul urmărește aderența corectă, distribuția uniformă a materialului și formarea unei membrane continue după uscare.
           </p>
         </FadeReveal>
@@ -501,10 +501,10 @@ export const ApplicationSection = () => {
               <span className="font-sans text-xs sm:text-sm uppercase tracking-[0.3em] text-[#FF4500] mb-6 block font-semibold">
                 Suprafețe compatibile
               </span>
-              <h4 className="font-display font-black text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-white mb-8 leading-[1.1] tracking-[-0.03em] uppercase">
+              <h4 className="font-display font-black text-2xl sm:text-4xl md:text-5xl lg:text-6xl text-white mb-8 leading-[1.1] tracking-[-0.03em] uppercase">
                 SUPORTURI MINERALE, METALICE ȘI LEMNOASE
               </h4>
-              <p className="text-gray-300 font-sans text-lg sm:text-xl md:text-2xl leading-relaxed font-light max-w-4xl mx-auto">
+              <p className="text-gray-300 font-sans text-sm sm:text-base md:text-xl leading-relaxed font-light max-w-4xl mx-auto">
                 thermX poate fi aplicat pe mai multe tipuri de suport, în funcție de compatibilitatea materialului, pregătirea suprafeței și condițiile proiectului.
               </p>
             </FadeReveal>
@@ -592,20 +592,20 @@ export const ContactSection = () => {
 
         <TextReveal
           text="Ai o suprafață de izolat?"
-          className="font-display font-black text-xl sm:text-3xl md:text-4xl lg:text-6xl tracking-[-0.03em] leading-[1.2] mb-2 sm:mb-3"
+          className="font-display font-black text-3xl sm:text-3xl md:text-4xl lg:text-6xl tracking-[-0.03em] leading-[1.2] mb-2 sm:mb-3"
           style={{ color: textColor }}
           delay={0.1}
         />
 
         <TextReveal
           text="Începem cu datele proiectului."
-          className="font-display font-black text-lg sm:text-2xl md:text-3xl lg:text-5xl tracking-[-0.02em] leading-[1.2] mb-4 sm:mb-6"
+          className="font-display font-black text-2xl sm:text-2xl md:text-3xl lg:text-5xl tracking-[-0.02em] leading-[1.2] mb-4 sm:mb-6"
           style={{ color: textColor }}
           delay={0.2}
         />
 
         <FadeReveal delay={0.25}>
-          <motion.p className="text-xs sm:text-sm md:text-lg font-sans font-light mb-6 sm:mb-8 max-w-2xl mx-auto leading-relaxed" style={{ color: subtextColor }}>
+          <motion.p className="text-sm sm:text-base md:text-lg font-sans font-light mb-6 sm:mb-8 max-w-2xl mx-auto leading-relaxed" style={{ color: subtextColor }}>
             Trimite tipul proiectului, suprafața estimată și materialul suport. Echipa thermX îți va recomanda grosimea, aplicarea și pașii potriviți.
           </motion.p>
         </FadeReveal>
@@ -650,7 +650,7 @@ export const ContactSection = () => {
 export const Footer = () => (
   <footer className="relative py-12 border-t border-black/[0.04]">
     <div className="max-w-6xl mx-auto px-6 md:px-12 flex flex-col items-center gap-6 text-center">
-      <div className="flex flex-col md:flex-row justify-center items-center gap-4 md:gap-8">
+      <div className="flex flex-col md:flex-row justify-center items-center gap-4 md:gap-8 flex-wrap">
         <div className="flex items-center">
           <span className="text-black font-display font-bold text-lg">thermX</span>
           <span className="text-[#FF4500] text-xl leading-none font-bold ml-[1px]">.</span>
@@ -658,9 +658,13 @@ export const Footer = () => (
         <span className="text-gray-600 font-sans text-xs">
           © {new Date().getFullYear()} Nano Revolution SRL. Toate drepturile rezervate.
         </span>
-        <div className="flex items-center gap-6">
-          <a href="#" className="text-gray-600 font-sans text-xs hover:text-black transition-colors">Fișă Tehnică</a>
-          <a href="#" className="text-gray-600 font-sans text-xs hover:text-black transition-colors">Certificări</a>
+        <div className="flex flex-wrap justify-center items-center gap-x-6 gap-y-2">
+          <a href="/docs/specificatie-tip-thermx.pdf" download target="_blank" rel="noopener noreferrer" className="text-gray-600 font-sans text-xs hover:text-black transition-colors">Fișă Tehnică</a>
+          <a href="/docs/ghid-aplicare-thermx.pdf" download target="_blank" rel="noopener noreferrer" className="text-gray-600 font-sans text-xs hover:text-black transition-colors">Ghid de Aplicare</a>
+          <a href="/docs/fisa-securitate-thermx.pdf" download target="_blank" rel="noopener noreferrer" className="text-gray-600 font-sans text-xs hover:text-black transition-colors">Fișă Securitate</a>
+          <a href="/docs/garantie-standard-thermx.pdf" download target="_blank" rel="noopener noreferrer" className="text-gray-600 font-sans text-xs hover:text-black transition-colors">Garanție Standard</a>
+          <a href="/docs/agrement-tehnic-thermx.pdf" download target="_blank" rel="noopener noreferrer" className="text-gray-600 font-sans text-xs hover:text-black transition-colors">Agrement Tehnic</a>
+          <a href="/docs/declaratie-performanta-thermx.pdf" download target="_blank" rel="noopener noreferrer" className="text-gray-600 font-sans text-xs hover:text-black transition-colors">Declarație de Performanță</a>
         </div>
       </div>
       <div className="text-gray-600 font-sans text-xs">

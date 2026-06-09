@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<!--
+  thermX — Revizuire secțiunea PRODUS (#produs)
+  Pentru Denis (dezvoltator). Conține: (1) PREVIEW copy nou, (2) hartă OLD -> NEW pentru find & replace în React.
+  Realizat de Epic Digital Hub.
+-->
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>thermX — Revizuire secțiunea Produs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --orange:#FF4500;
+    --ink:#16181d;
+    --muted:#6b7280;
+    --line:#e6e7ea;
+    --bg:#f6f6f4;
+    --card:#ffffff;
+    --old-bg:#fbeeee;
+    --old-ink:#9a3030;
+    --new-bg:#eef7ef;
+    --new-ink:#1f6b33;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;font-family:'Exo 2',system-ui,sans-serif;color:var(--ink);
+    background:var(--bg);line-height:1.55;font-weight:400;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1000px;margin:0 auto;padding:48px 24px 96px;}
+  .doc-head{border-bottom:3px solid var(--orange);padding-bottom:22px;margin-bottom:14px;}
+  .doc-head .kicker{font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:var(--orange);font-weight:600;}
+  .doc-head h1{font-size:38px;font-weight:700;margin:8px 0 6px;letter-spacing:-.01em;}
+  .doc-head p{color:var(--muted);margin:0;font-size:16px;}
+
+  .legend{display:flex;gap:10px;flex-wrap:wrap;margin:26px 0 0;}
+  .pill{font-size:13px;padding:6px 12px;border-radius:999px;font-weight:500;border:1px solid var(--line);background:#fff;}
+  .pill b{font-weight:700;}
+
+  h2.section{font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:var(--orange);
+    font-weight:600;margin:64px 0 4px;}
+  h2.section + .lead{font-size:26px;font-weight:700;margin:0 0 24px;letter-spacing:-.01em;}
+
+  .note{background:#fff;border:1px solid var(--line);border-left:4px solid var(--orange);
+    border-radius:10px;padding:18px 20px;margin:20px 0;font-size:15px;}
+  .note strong{font-weight:700;}
+  .note ul{margin:10px 0 0;padding-left:20px;}
+  .note li{margin:6px 0;}
+
+  /* ---- PREVIEW (cum arată textul nou) ---- */
+  .preview{background:var(--card);border:1px solid var(--line);border-radius:16px;
+    padding:34px 36px;margin:18px 0;}
+  .preview h3{font-size:24px;font-weight:700;margin:0 0 14px;letter-spacing:-.01em;}
+  .preview p{font-size:16px;color:#33363d;margin:0 0 14px;}
+  .preview p:last-child{margin-bottom:0;}
+  .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:8px;}
+  @media(max-width:760px){.stats{grid-template-columns:1fr;}}
+  .stat{border:1px solid var(--line);border-radius:12px;padding:18px;background:#fafafa;}
+  .stat .num{font-size:30px;font-weight:700;color:var(--orange);line-height:1.1;}
+  .stat .lab{font-weight:600;margin:6px 0 4px;}
+  .stat .desc{font-size:14px;color:var(--muted);}
+  .speclist{margin:0;padding:0;list-style:none;}
+  .speclist .grp{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);
+    font-weight:600;margin:22px 0 8px;}
+  .speclist .row{display:flex;justify-content:space-between;gap:16px;border-bottom:1px solid var(--line);
+    padding:12px 0;align-items:baseline;}
+  .speclist .row .k{font-weight:600;flex:0 0 38%;}
+  .speclist .row .v{font-weight:700;color:var(--orange);flex:0 0 22%;font-variant-numeric:tabular-nums;}
+  .speclist .row .d{font-size:14px;color:var(--muted);flex:1;}
+  .speclist .row.lead-spec{background:#fff6f2;margin:0 -12px;padding:14px 12px;border-radius:8px;border-bottom:none;}
+  .speclist .row.lead-spec .tag{display:inline-block;font-size:10px;background:var(--orange);color:#fff;
+    padding:2px 7px;border-radius:6px;margin-left:8px;vertical-align:middle;letter-spacing:.05em;}
+  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
+  @media(max-width:760px){.steps{grid-template-columns:1fr;}}
+  .step{border:1px solid var(--line);border-radius:12px;padding:18px;}
+  .step .n{font-size:13px;color:var(--orange);font-weight:700;}
+  .step .t{font-weight:600;margin:6px 0 6px;}
+  .step .d{font-size:14px;color:var(--muted);}
+  .hero-prev{background:#111418;color:#fff;border:1px solid var(--line);border-radius:16px;padding:44px 40px;margin:18px 0;}
+  .hero-prev .eyebrow{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--orange);font-weight:600;}
+  .hero-prev h3{font-size:40px;font-weight:700;margin:14px 0 14px;letter-spacing:-.01em;line-height:1.05;color:#fff;}
+  .hero-prev .sub{font-size:18px;color:#c9ccd2;max-width:640px;margin:0 0 22px;}
+  .hero-prev .strip{display:flex;flex-wrap:wrap;gap:10px;}
+  .hero-prev .chip{font-size:14px;font-weight:600;background:rgba(255,255,255,0.06);
+    border:1px solid rgba(255,255,255,0.14);padding:8px 14px;border-radius:999px;}
+  .hero-prev .chip b{color:var(--orange);}
+  .features{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;}
+  @media(max-width:760px){.features{grid-template-columns:1fr;}}
+  .feat{display:flex;gap:12px;border:1px solid var(--line);border-radius:12px;padding:14px 16px;background:#fafafa;}
+  .feat svg{flex:0 0 22px;width:22px;height:22px;color:var(--orange);margin-top:2px;}
+  .feat .ft{font-weight:600;}
+  .feat .fd{font-size:14px;color:var(--muted);margin-top:3px;}
+
+  /* ---- CHANGE MAP (OLD -> NEW) ---- */
+  .change{background:#fff;border:1px solid var(--line);border-radius:12px;margin:14px 0;overflow:hidden;}
+  .change .loc{font-size:13px;font-weight:600;background:#f0f1f3;padding:8px 16px;color:#3a3d44;
+    border-bottom:1px solid var(--line);}
+  .change .body{display:grid;grid-template-columns:1fr 1fr;}
+  @media(max-width:760px){.change .body{grid-template-columns:1fr;}}
+  .change .old,.change .new{padding:14px 16px;font-size:14.5px;}
+  .change .old{background:var(--old-bg);color:var(--old-ink);border-right:1px solid var(--line);}
+  .change .new{background:var(--new-bg);color:var(--new-ink);}
+  .change .tag{display:block;font-size:11px;letter-spacing:.1em;text-transform:uppercase;
+    font-weight:700;opacity:.7;margin-bottom:6px;}
+  .change.add .old{background:#f3f4f6;color:#9aa0a8;font-style:italic;}
+  del{text-decoration:line-through;opacity:.6;}
+  ins{text-decoration:none;background:#d6efd9;border-radius:3px;padding:0 2px;}
+  code{background:#eceef1;padding:1px 6px;border-radius:5px;font-size:13px;
+    font-family:ui-monospace,SFMono-Regular,Menlo,monospace;}
+  .footer{margin-top:72px;padding-top:20px;border-top:1px solid var(--line);
+    color:var(--muted);font-size:13px;text-align:center;}
+
+  /* ---- AUDIT ---- */
+  .audit{border:1px solid var(--line);border-radius:12px;margin:14px 0;overflow:hidden;background:#fff;}
+  .audit .ah{display:flex;align-items:center;gap:10px;padding:14px 18px;font-weight:700;font-size:16px;border-bottom:1px solid var(--line);}
+  .audit .ab{padding:16px 18px;font-size:15px;color:#33363d;}
+  .audit .ab p{margin:0 0 10px;}
+  .audit .ab p:last-child{margin-bottom:0;}
+  .audit.crit{border-left:4px solid #d33;}
+  .audit.crit .ah{color:#b3261e;background:#fbeeee;}
+  .audit.warn{border-left:4px solid #c98a00;}
+  .audit.warn .ah{color:#8a5d00;background:#fff8ec;}
+  .audit.add{border-left:4px solid #1f6b33;}
+  .audit.add .ah{color:#1f6b33;background:#eef7ef;}
+  .audit code{background:#1c1f24;color:#e6e7ea;padding:10px 14px;border-radius:8px;display:block;
+    white-space:pre-wrap;font-size:13px;margin:4px 0 10px;line-height:1.5;}
+  .audit ul{margin:6px 0 0;padding-left:20px;}
+  .audit li{margin:5px 0;}
+  .seqbox{background:#111418;color:#e6e7ea;border-radius:12px;padding:22px 24px;margin:18px 0;}
+  .seqbox b{color:var(--orange);}
+  .seqbox ol{margin:8px 0 0;padding-left:22px;}
+  .seqbox li{margin:7px 0;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="doc-head">
+    <div class="kicker">thermX · revizuire conținut</div>
+    <h1>Secțiunea Produs — curățată de repetiții</h1>
+    <p>Document de lucru pentru Denis. Stânga = ce e acum pe site, dreapta = textul nou. Cifrele și termenii tehnici nu s-au schimbat.</p>
+  </div>
+
+  <div class="legend">
+    <span class="pill">✏️ <b>Hero</b>: subtitlu rescris cu logică + strip de dovezi</span>
+    <span class="pill">🔁 Eliminat repetiții în <b>Ce este</b>, <b>Transfer termic</b>, <b>Specificații</b></span>
+    <span class="pill">✏️ Peste tot: <del>radiație infraroșie</del> → <b>radiație</b></span>
+    <span class="pill">➕ Adăugat <b>Lambda 0,001 W/mK</b> ca prima specificație</span>
+    <span class="pill">➕ Bloc nou <b>Caracteristici cheie</b> (10 caracteristici din nota clientului)</span>
+    <span class="pill">🔁 <del>microsfere</del> → <b>nanosfere</b></span>
+    <span class="pill">🐞 Reparat un typo existent pe site</span>
+  </div>
+
+  <div class="note">
+    <strong>Pentru Denis — ce ai de făcut, pe scurt:</strong>
+    <ul>
+      <li>Textele trăiesc în <em>array-urile de date</em> din componentele React ale secțiunilor (ex. liste de <code>{title, value, desc}</code> și <code>{num, label, desc}</code>). Nu se schimbă structura sau layout-ul — doar string-urile.</li>
+      <li>Fă <strong>find &amp; replace</strong> după tabelele de mai jos (OLD → NEW).</li>
+      <li>Două modificări de structură: <strong>un rând nou în tabelul de specificații</strong> (Lambda, vezi secțiunea 4) și <strong>o secțiune nouă „Caracteristici cheie”</strong> (vezi secțiunea 4b).</li>
+      <li>Atenție la diacritice: doar <code>ă â î ș ț</code> (cu virgulă dedesubt), niciodată <code>ş ţ</code> cu sedilă.</li>
+    </ul>
+  </div>
+
+  <!-- ============ PREVIEW ============ -->
+  <h2 class="section" style="margin-top:48px;">Preview</h2>
+  <div class="lead">Așa arată textul nou</div>
+
+  <!-- 0. Hero -->
+  <div class="hero-prev">
+    <div class="eyebrow">Membrană nanoceramică termoizolantă</div>
+    <h3>Izolația nu înseamnă doar grosime.</h3>
+    <p class="sub">O parte importantă din căldură se pierde prin radiație, pe care grosimea nu o oprește. thermX o reflectă într-un strat de 1–3 mm.</p>
+    <div class="strip">
+      <span class="chip"><b>reflexie 85%</b></span>
+      <span class="chip"><b>economie până la 40%</b></span>
+      <span class="chip"><b>λ 0,001 W/mK</b></span>
+      <span class="chip"><b>garanție 20 de ani</b></span>
+    </div>
+  </div>
+
+  <!-- 2. Ce este -->
+  <div class="preview">
+    <h3>Ce este thermX</h3>
+    <p>Membrană termoizolantă nanoceramică, aplicată prin pulverizare într-o grosime controlată de 1–3 mm.</p>
+    <p>thermX folosește nanosfere ceramice vidate, integrate într-un strat nanoceramic reflectiv aplicat direct pe suprafață. După uscare, formează o membrană continuă, fără rosturi și fără îmbinări între plăci.</p>
+    <p>Punctul forte al tehnologiei este reducerea transferului termic prin radiație. În același timp, continuitatea membranei limitează pierderile apărute la întreruperi, microfisuri și zone greu de acoperit.</p>
+    <div class="stats">
+      <div class="stat"><div class="num">până la 40%</div><div class="lab">Economie de energie</div><div class="desc">Prin reflexia radiației și reducerea pierderilor termice la nivelul suprafeței.</div></div>
+      <div class="stat"><div class="num">până la 80%</div><div class="lab">Timp de aplicare redus</div><div class="desc">Pulverizare rapidă, fără montaj de plăci, dibluri sau elemente mecanice suplimentare.</div></div>
+      <div class="stat"><div class="num">până la 30%</div><div class="lab">Costuri de execuție reduse</div><div class="desc">Mai puține materiale auxiliare, mai puține etape și adaptare mai ușoară la suprafețe complexe.</div></div>
+    </div>
+  </div>
+
+  <!-- 3. Transfer termic -->
+  <div class="preview">
+    <h3>Nu toată căldura se pierde prin grosime.</h3>
+    <p>Izolațiile clasice lucrează prin masă și grosime. thermX lucrează la nivelul suprafeței: o membrană reflectivă care acționează direct asupra căilor prin care se pierde căldura.</p>
+    <ul class="speclist">
+      <li class="row"><span class="k">Radiație</span><span class="v">40%</span><span class="d">Invizibilă, dar importantă în bilanțul termic al unei clădiri. Aici intervine thermX: reflectă până la 85% din radiație, în loc să o lase absorbită de suprafață.</span></li>
+      <li class="row"><span class="k">Conducție</span><span class="v">~35%</span><span class="d">Căldura trece direct prin materiale solide: beton, metal, cărămidă, tencuială. Nanosferele ceramice vidate din stratul thermX întrerup acest traseu termic.</span></li>
+      <li class="row"><span class="k">Convecție</span><span class="v">~25%</span><span class="d">Aerul cald scapă prin fisuri, rosturi și îmbinări neetanșe, frecvent la margini și colțuri. Fiind un strat continuu, thermX nu lasă astfel de întreruperi în strat.</span></li>
+    </ul>
+  </div>
+
+  <!-- 4. Specificatii -->
+  <div class="preview">
+    <h3>Performanță într-un strat subțire.</h3>
+    <p>După aplicare, thermX rămâne un strat subțire, dar trebuie să reziste la solicitări reale: temperatură, mișcări ale suportului, vapori și expunere în timp. Valorile de mai jos arată cum se comportă la fiecare.</p>
+    <ul class="speclist">
+      <li class="grp">Performanță termică</li>
+      <li class="row lead-spec"><span class="k">Conductivitate termică (λ) <span class="tag">NOU · #1</span></span><span class="v">0,001 W/mK</span><span class="d">Coeficient de transfer termic redus, valoarea centrală a performanței termice.</span></li>
+      <li class="row"><span class="k">Interval de operare</span><span class="v">-60 / +260°C</span><span class="d">Stabil în aplicații cu temperaturi foarte joase sau ridicate, de la spații frigorifice până la suprafețe industriale.</span></li>
+      <li class="row"><span class="k">Reflexia radiației</span><span class="v">până la 85%</span><span class="d">Reducerea transferului termic radiant la nivelul suprafeței tratate.</span></li>
+      <li class="grp">Rezistență pe suport</li>
+      <li class="row"><span class="k">Aderență la suport</span><span class="v">1,53–1,84 MPa</span><span class="d">Valori documentate pentru metal, beton și lemn, în funcție de tipul substratului.</span></li>
+      <li class="row"><span class="k">Elongație la rupere</span><span class="v">&gt;12%</span><span class="d">Membrana poate prelua dilatări și micromișcări ale suportului, menținând continuitatea stratului.</span></li>
+      <li class="grp">Structură și siguranță</li>
+      <li class="row"><span class="k">Densitate</span><span class="v">380–410 kg/m³</span><span class="d">Structură ușoară după uscare. La 1 mm grosime, adaugă aproximativ 0,4 kg/m².</span></li>
+      <li class="row"><span class="k">Reacție la foc</span><span class="v">Clasa A1</span><span class="d">Material incombustibil în stare uscată/polimerizată (Clasa A1), și Clasa C pentru material în stare lichidă, înainte de aplicare.</span></li>
+      <li class="grp">Comportament în timp</li>
+      <li class="row"><span class="k">Permeabilitate la vapori</span><span class="v">0,0014</span><span class="d">Comportament controlat la vapori, contribuind la gestionarea umidității la nivelul stratului aplicat.</span></li>
+      <li class="row"><span class="k">Durabilitate</span><span class="v">35+ ani</span><span class="d">Conceput pentru utilizare pe termen lung, cu stabilitate a membranei în condiții normale de exploatare.</span></li>
+    </ul>
+  </div>
+
+  <!-- 4b. Caracteristici cheie (BLOC NOU) -->
+  <div class="preview">
+    <h3>Caracteristici cheie</h3>
+    <div class="features">
+      <div class="feat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><div><div class="ft">Antifungic</div><div class="fd">Nu se formează igrasie sau mucegai pe suprafața tratată.</div></div></div>
+      <div class="feat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><div><div class="ft">Anticoroziv</div><div class="fd">Protejează suporturile metalice expuse la umiditate.</div></div></div>
+      <div class="feat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><div><div class="ft">Clasă de foc A1</div><div class="fd">Material incombustibil după uscare.</div></div></div>
+      <div class="feat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><div><div class="ft">Protecție UV 100%</div><div class="fd">Stratul nu se degradează la expunere solară.</div></div></div>
+      <div class="feat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><div><div class="ft">Respirabil</div><div class="fd">Lasă vaporii să iasă, fără să rețină umezeala în perete.</div></div></div>
+      <div class="feat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><div><div class="ft">Hidroizolant</div><div class="fd">Blochează apa și păstrează suportul uscat.</div></div></div>
+      <div class="feat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><div><div class="ft">Rezistent la șocuri</div><div class="fd">Este elastic și preia lovituri și mișcări ale suportului fără fisuri.</div></div></div>
+      <div class="feat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><div><div class="ft">Ecologic</div><div class="fd">Conține aditivi compatibili cu protecția mediului.</div></div></div>
+      <div class="feat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><div><div class="ft">Aplicabil pe lemn</div><div class="fd">Oprește evoluția cariilor din lemn.</div></div></div>
+      <div class="feat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><div><div class="ft">Colorabil</div><div class="fd">Se pigmentează la cerere, în culoarea dorită.</div></div></div>
+    </div>
+  </div>
+
+  <!-- 5. Proces -->
+  <div class="preview">
+    <h3>Aplicare controlată, în straturi succesive.</h3>
+    <div class="steps">
+      <div class="step"><div class="n">01</div><div class="t">Pregătirea suportului</div><div class="d">Suprafața se curăță, se usucă și se stabilizează înainte de aplicare. Aderența depinde de calitatea suportului.</div></div>
+      <div class="step"><div class="n">02</div><div class="t">Pulverizare airless</div><div class="d">Membrana se aplică uniform, în straturi controlate, până la grosimea finală recomandată pentru proiect.</div></div>
+      <div class="step"><div class="n">03</div><div class="t">Uscare și formarea membranei</div><div class="d">După uscare, thermX formează un strat continuu, adaptat la geometria suprafeței tratate.</div></div>
+    </div>
+  </div>
+
+  <!-- ============ CHANGE MAP ============ -->
+  <h2 class="section">Implementare</h2>
+  <div class="lead">Ce schimbi exact (OLD → NEW)</div>
+
+  <div class="note">
+    <strong>Înlocuire globală (toată secțiunea):</strong>
+    <ul>
+      <li><code>radiație infraroșie</code> → <code>radiație</code></li>
+      <li><code>radiației infraroșii</code> → <code>radiației</code></li>
+      <li>Eticheta <code>Reflexie infraroșu</code> → <code>Reflexia radiației</code></li>
+      <li><code>microsfere</code> → <code>nanosfere</code> și <code>Microsferele</code> → <code>Nanosferele</code> (confirmat de client — produsul e nano)</li>
+    </ul>
+  </div>
+
+  <!-- 0 hero -->
+  <div class="change">
+    <div class="loc">0. Hero — subtitlu (H1 rămâne neschimbat) + strip nou de dovezi</div>
+    <div class="body">
+      <div class="old"><span class="tag">acum pe site</span><del>Reduce cu până la 40% pierderile energetice. Zero punți termice. Garanție 20 de ani.</del></div>
+      <div class="new"><span class="tag">nou</span><ins>O parte importantă din căldură se pierde prin radiație, pe care grosimea nu o oprește. thermX o reflectă într-un strat de 1–3 mm.</ins><br><br>Sub subtitlu, strip nou de dovezi (chips): <ins>reflexie 85% · economie până la 40% · λ 0,001 W/mK · garanție 20 de ani</ins></div>
+    </div>
+  </div>
+
+  <!-- 2 -->
+  <div class="change">
+    <div class="loc">2. Ce este — paragraful 2 (nanosfere) + paragraful 3</div>
+    <div class="body">
+      <div class="old"><span class="tag">acum pe site</span>thermX folosește <del>microsfere</del> ceramice vidate... Punctul forte al tehnologiei este reducerea transferului termic prin <del>radiație infraroșie</del>. În același timp, continuitatea membranei <del>ajută la limitarea pierderilor generate de</del> întreruperi, microfisuri și zone greu de acoperit.</div>
+      <div class="new"><span class="tag">nou</span>thermX folosește <ins>nanosfere</ins> ceramice vidate... Punctul forte al tehnologiei este reducerea transferului termic prin radiație. În același timp, continuitatea membranei <ins>limitează pierderile apărute la</ins> întreruperi, microfisuri și zone greu de acoperit.</div>
+    </div>
+  </div>
+
+  <div class="change">
+    <div class="loc">2. Ce este — cifra „până la 40%”, descriere</div>
+    <div class="body">
+      <div class="old"><span class="tag">acum pe site</span>Prin reflexia radiației <del>infraroșii</del> și reducerea pierderilor termice la nivelul suprafeței.</div>
+      <div class="new"><span class="tag">nou</span>Prin reflexia radiației și reducerea pierderilor termice la nivelul suprafeței.</div>
+    </div>
+  </div>
+
+  <!-- 3 -->
+  <div class="change">
+    <div class="loc">3. Transfer termic — intro</div>
+    <div class="body">
+      <div class="old"><span class="tag">acum pe site</span>Izolațiile clasice lucrează <del>în principal</del> prin masă și grosime. thermX lucrează la nivelul suprafeței<del>, printr-o membrană nanoceramică reflectivă care reduce transferul termic prin radiație infraroșie.</del></div>
+      <div class="new"><span class="tag">nou</span>Izolațiile clasice lucrează prin masă și grosime. thermX lucrează la nivelul suprafeței<ins>: o membrană reflectivă care acționează direct asupra căilor prin care se pierde căldura.</ins></div>
+    </div>
+  </div>
+
+  <div class="change">
+    <div class="loc">3. Transfer termic — rândul „Radiație” (descriere)</div>
+    <div class="body">
+      <div class="old"><span class="tag">acum pe site</span>Invizibilă, dar importantă în bilanțul termic al unei clădiri. <del>thermX reflectă până la 85% din radiația infraroșie, contribuind la reducerea consumului de energie. Până la 40% economie de energie în condiții specifice de aplicare.</del></div>
+      <div class="new"><span class="tag">nou</span>Invizibilă, dar importantă în bilanțul termic al unei clădiri. <ins>Aici intervine thermX: reflectă până la 85% din radiație, în loc să o lase absorbită de suprafață.</ins></div>
+    </div>
+  </div>
+
+  <div class="change">
+    <div class="loc">3. Transfer termic — rândul „Conducție” (descriere)</div>
+    <div class="body">
+      <div class="old"><span class="tag">acum pe site</span>Căldura se transferă direct prin materiale solide: beton, metal, cărămidă sau tencuială. <del>Cu cât suprafața conduce mai ușor energia termică, cu atât pierderile devin mai mari.</del> <del>Microsferele</del> ceramice vidate din <del>structura</del> thermX <del>contribuie la întreruperea traseului termic prin stratul aplicat.</del></div>
+      <div class="new"><span class="tag">nou</span>Căldura <ins>trece</ins> direct prin materiale solide: beton, metal, cărămidă<ins>,</ins> tencuială. <ins>Nanosferele</ins> ceramice vidate din <ins>stratul</ins> thermX <ins>întrerup acest traseu termic.</ins></div>
+    </div>
+  </div>
+
+  <div class="change">
+    <div class="loc">3. Transfer termic — rândul „Convecție” (descriere)</div>
+    <div class="body">
+      <div class="old"><span class="tag">acum pe site</span>Aerul cald <del>se poate pierde</del> prin fisuri, rosturi și îmbinări neetanșe. <del>În izolațiile clasice, aceste zone apar frecvent la margini, colțuri sau îmbinări între materiale. thermX formează o membrană continuă, aplicată prin pulverizare, care reduce întreruperile prin care aerul poate transporta energia termică.</del></div>
+      <div class="new"><span class="tag">nou</span>Aerul cald <ins>scapă</ins> prin fisuri, rosturi și îmbinări neetanșe<ins>, frecvent la margini și colțuri. Fiind un strat continuu, thermX nu lasă astfel de întreruperi în strat.</ins></div>
+    </div>
+  </div>
+
+  <!-- 4 -->
+  <div class="change add">
+    <div class="loc">4. Specificații → grupul „Performanță termică” — RÂND NOU, pus primul</div>
+    <div class="body">
+      <div class="old"><span class="tag">nu există acum</span>(rând nou de adăugat în array, înaintea „Interval de operare”)</div>
+      <div class="new"><span class="tag">de adăugat</span><strong>Conductivitate termică (λ)</strong> · <strong>0,001 W/mK</strong> · Coeficient de transfer termic redus, valoarea centrală a performanței termice.</div>
+    </div>
+  </div>
+
+  <div class="change">
+    <div class="loc">4. Specificații — rândul reflexiei (etichetă + descriere)</div>
+    <div class="body">
+      <div class="old"><span class="tag">acum pe site</span><del>Reflexie infraroșu</del> · până la 85% · <del>Punctul forte al tehnologiei:</del> reducerea transferului termic radiant la nivelul suprafeței tratate.</div>
+      <div class="new"><span class="tag">nou</span><ins>Reflexia radiației</ins> · până la 85% · Reducerea transferului termic radiant la nivelul suprafeței tratate.</div>
+    </div>
+  </div>
+
+  <div class="change">
+    <div class="loc">4. Specificații — intro (rescris integral)</div>
+    <div class="body">
+      <div class="old"><span class="tag">acum pe site</span><del>thermX nu adaugă volum inutil. După aplicare, membrana trebuie să reziste la temperatură, aderență, mișcări ale suportului, vapori și expunere în timp. Aici se vede diferența dintre un termoizolant convențional și o membrană tehnică.</del></div>
+      <div class="new"><span class="tag">nou</span><ins>După aplicare, thermX rămâne un strat subțire, dar trebuie să reziste la solicitări reale: temperatură, mișcări ale suportului, vapori și expunere în timp. Valorile de mai jos arată cum se comportă la fiecare.</ins></div>
+    </div>
+  </div>
+
+  <div class="change">
+    <div class="loc">4. Specificații — „Elongație la rupere” (descriere)</div>
+    <div class="body">
+      <div class="old"><span class="tag">acum pe site</span>Membrana poate prelua dilatări și <del>micro-mișcări</del> ale suportului, menținând continuitatea stratului<del> în limitele specificate</del>.</div>
+      <div class="new"><span class="tag">nou</span>Membrana poate prelua dilatări și <ins>micromișcări</ins> ale suportului, menținând continuitatea stratului.</div>
+    </div>
+  </div>
+
+  <div class="change">
+    <div class="loc">4. Specificații — „Reacție la foc” (valoare + descriere) · A1 + 🐞 TYPO PE SITE</div>
+    <div class="body">
+      <div class="old"><span class="tag">acum pe site (greșit)</span>Valoare: <del>Clasa A</del> · Clasa A în stare uscată/polimerizată, conform documentației tehnice disponibile și Clasa C pentru material <del>in forma sa lichida inaite</del> de aplicare.</div>
+      <div class="new"><span class="tag">nou (corectat)</span>Valoare: <ins>Clasa A1</ins> · <ins>Material incombustibil în stare uscată/polimerizată (Clasa A1)</ins>, și Clasa C pentru material <ins>în stare lichidă, înainte</ins> de aplicare.</div>
+    </div>
+  </div>
+
+  <!-- 4b NOU -->
+  <div class="change add">
+    <div class="loc">4b. SECȚIUNE NOUĂ — „Caracteristici cheie” (de construit ca grilă de carduri)</div>
+    <div class="body">
+      <div class="old"><span class="tag">nu există acum</span>(componentă nouă, recomandat după blocul de Specificații; 10 carduri: titlu + o linie. Vezi preview-ul de mai sus pentru text exact.)</div>
+      <div class="new"><span class="tag">de adăugat</span>Antifungic · Anticoroziv · Clasă de foc A1 · Protecție UV 100% · Respirabil · Hidroizolant · Rezistent la șocuri · Ecologic · Aplicabil pe lemn · Colorabil.</div>
+    </div>
+  </div>
+
+  <!-- 5 -->
+  <div class="change">
+    <div class="loc">5. Proces — pasul 03 (titlu + descriere)</div>
+    <div class="body">
+      <div class="old"><span class="tag">acum pe site</span><del>Uscare și formare membrană</del> — După uscare, thermX formează un strat continuu<del>, fără rosturi,</del> adaptat la geometria suprafeței tratate.</div>
+      <div class="new"><span class="tag">nou</span><ins>Uscare și formarea membranei</ins> — După uscare, thermX formează un strat continuu, adaptat la geometria suprafeței tratate.</div>
+    </div>
+  </div>
+
+  <!-- ============ AUDIT ============ -->
+  <h2 class="section">Audit site + recomandări</h2>
+  <div class="lead">Ce am mai găsit pe site (analiză cod live)</div>
+
+  <div class="note">
+    Analizat din bundle-ul JS al site-ului (<code>/assets/index-*.js</code>) + <code>index.html</code>. Flag-urile critice de mai jos sunt confirmate în cod, nu presupuneri.
+  </div>
+
+  <!-- CRITIC -->
+  <div class="audit crit">
+    <div class="ah">🔴 1. Formularul de contact e FALS. Lead-urile se pierd.</div>
+    <div class="ab">
+      <p>Handler-ul de submit este, în esență:</p>
+      <code>preventDefault(), setLoading(true), await wait(1500ms),
+setLoading(false), setSuccess(true), resetForm()</code>
+      <p>Fără <code>fetch</code>, fără POST, fără email, fără API. Așteaptă 1,5 secunde, apoi afișează „Mesaj trimis cu succes! Datele tale au fost înregistrate…” — dar <strong>nimic nu se înregistrează și nimeni nu e notificat.</strong></p>
+      <p><strong>Impact:</strong> fiecare cerere de ofertă se pierde în tăcere, în timp ce vizitatorul e anunțat că a reușit. Cea mai gravă problemă de pe site.</p>
+    </div>
+  </div>
+
+  <div class="audit crit">
+    <div class="ah">🔴 2. Zero tracking.</div>
+    <div class="ab">
+      <p>Nici GA4, nici Meta Pixel, nici GTM, nimic. Nu se poate măsura traficul și nu se pot rula reclame Meta/Google cu retargeting sau conversion tracking. Tracking-ul e pasul 1 din metodologia de ads.</p>
+    </div>
+  </div>
+
+  <div class="audit crit">
+    <div class="ah">🔴 3. SEO practic gol.</div>
+    <div class="ab">
+      <ul>
+        <li><code>&lt;title&gt;</code> = doar <code>thermx</code> (litere mici, fără cuvinte cheie)</li>
+        <li>Fără meta description</li>
+        <li>Fără Open Graph / Twitter tags</li>
+      </ul>
+      <p style="margin-top:10px;"><strong>Impact:</strong> la share pe WhatsApp/Facebook/LinkedIn linkul apare fără imagine și fără descriere — pare stricat, omoară click-through-ul. Și snippet-ul Google e slab.</p>
+    </div>
+  </div>
+
+  <!-- IMPORTANT -->
+  <div class="audit warn">
+    <div class="ah">🟡 4. Linkuri footer moarte.</div>
+    <div class="ab"><p>„Fișă Tehnică” și „Certificări” duc ambele la <code>href="#"</code>. Pentru un produs tehnic, fișa tehnică e exact ce caută arhitecții/inginerii. Există deja <code>PRESENTATION/docs/fisa-tehnica-thermx.html</code> etc. — de conectat sau de scos linkurile.</p></div>
+  </div>
+
+  <div class="audit warn">
+    <div class="ah">🟡 5. Drift de documentație — telefonul e acum public.</div>
+    <div class="ab"><p>Site-ul afișează <code>Mobil: +40 771 445 577</code>, dar README-ul intern încă spune „telefon NU este afișat pe site”. De actualizat README-ul și de confirmat cu clientul că numărul rămâne public.</p></div>
+  </div>
+
+  <div class="audit warn">
+    <div class="ah">🟡 6. CTA-urile de segment pot fi fundături.</div>
+    <div class="ab"><p>„Vezi aplicații pentru locuințe / execuție / proiectare…” deschid o selecție în SPA, dar nu există pagini reale per-segment. Dacă userul dă click așteptând conținut și nu primește nimic, e o dezamăgire.</p></div>
+  </div>
+
+  <div class="audit warn">
+    <div class="ah">🟡 7. Consistență de brand.</div>
+    <div class="ab"><p>Font stack pe site = Outfit / Space Grotesk / Inter, dar regula de brand e <strong>Exo 2</strong> pentru text display/cifre/tehnic. Titlu scris <code>thermx</code> vs <code>thermX</code>. Minor, dar de aliniat.</p></div>
+  </div>
+
+  <!-- DE ADAUGAT -->
+  <div class="audit add">
+    <div class="ah">➕ Ce de adăugat pentru efect mult mai bun</div>
+    <div class="ab">
+      <p>Bundle-ul are deja <strong>GSAP (ScrollTrigger) + Framer Motion</strong>, deci majoritatea efectelor sunt ieftin de adăugat.</p>
+      <p><strong>Conversie (ROI cel mai mare):</strong></p>
+      <ul>
+        <li><strong>Backend real pentru formular</strong> — Formspree / Resend / funcție serverless pe Vercel → email + salvare lead. Plus honeypot pentru spam.</li>
+        <li><strong>Buton WhatsApp flotant</strong> — pentru RO capturează mai multe lead-uri decât un formular. Instant, friction minim.</li>
+        <li><strong>Secțiune de proof</strong> — site-ul are zero dovadă socială, iar produsul e „prea bun ca să fie adevărat”. Imagini termografice before/after, 2-3 proiecte de referință, validarea industrială (petrochimic/naval/auto), logo-uri parteneri/certificări.</li>
+      </ul>
+      <p><strong>Efecte care chiar vând produsul (nu decor):</strong></p>
+      <ul>
+        <li><strong>Vizual termic în hero</strong> — shimmer abstract de căldură/IR reflectat din membrană. Vizualizează direct „reflectă radiația”. Gradient abstract = ce face bine codul (nu obiect 3D codat).</li>
+        <li><strong>Diagramă animată de transfer termic</strong> pe blocul radiație/conducție/convecție, revelată la scroll.</li>
+        <li><strong>Count-up pe cifre</strong> (40% / 80% / 30% / 85%) la intrarea în viewport.</li>
+        <li><strong>Slider de comparație grosime</strong> — drag pentru 1–3 mm thermX vs ~10 cm polistiren.</li>
+        <li><strong>Imagine termică before/after</strong> cu mâner de drag.</li>
+      </ul>
+      <p><strong>Tehnic / descoperire:</strong> JSON-LD Product schema, titlu + meta description + OG image corecte, <code>sitemap.xml</code>, <code>robots.txt</code>.</p>
+    </div>
+  </div>
+
+  <div class="seqbox">
+    <b>Sequencing recomandat</b>
+    <ol>
+      <li><b>#1 (formular real) + #2 (tracking) + #3 (SEO/OG)</b> — non-negociabile și rapide.</li>
+      <li><b>#4–#7</b> — curățenie, săptămâna următoare.</li>
+      <li><b>Efectele</b> — fac site-ul impresionant, dar un site frumos care pierde fiecare lead e cel mai prost rezultat. Vin după ce fundația funcționează.</li>
+    </ol>
+  </div>
+
+  <div class="footer">
+    thermX · Nano Revolution SRL — document intern de revizuire conținut · Epic Digital Hub
+  </div>
+
+</div>
+</body>
+</html>

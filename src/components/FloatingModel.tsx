@@ -7,7 +7,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
 
-export const FloatingModel = () => {
+export const FloatingModel = ({ onLoaded }: { onLoaded?: () => void }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const thermTextRef = useRef<HTMLSpanElement>(null);
   const cleanupRef = useRef<(() => void) | null>(null);
@@ -330,6 +330,9 @@ export const FloatingModel = () => {
       }
 
       setupScrollAnimation(scrollGroup, baseScale, resetToLogoState, spinGroup, modelContainer, model1, sphereMesh);
+      if (onLoaded) {
+        onLoaded();
+      }
     };
 
     loader.load('/assets/sphere_white_opaque.glb', (gltf) => {
@@ -551,6 +554,26 @@ export const FloatingModel = () => {
           tlGlobal3D.to(mat, { opacity: 1, duration: 0.5 }, "<");
         });
       }
+
+      // Step 3.5: Application Section (Avoid overlapping marquee cards at bottom on mobile)
+      tlGlobal3D.to(group.position, { 
+        x: isMobile ? 0 : -2.5, 
+        y: isMobile ? 1.4 : 0.0, 
+        z: isMobile ? -2.0 : -5.0, 
+        ease: 'power1.inOut' 
+      });
+      tlGlobal3D.to(group.rotation, { 
+        x: 0.0, 
+        y: Math.PI * (isMobile ? 3.5 : 3.0), 
+        z: 0.0, 
+        ease: 'power1.inOut' 
+      }, "<");
+      tlGlobal3D.to(root.scale, { 
+        x: baseScale * 1.7 * (isMobile ? 0.65 : 1.6) * scaleMultiplier, 
+        y: baseScale * 1.7 * (isMobile ? 0.65 : 1.6) * scaleMultiplier, 
+        z: baseScale * 1.7 * (isMobile ? 0.65 : 1.6) * scaleMultiplier, 
+        ease: 'power1.inOut' 
+      }, "<");
 
       // Step 4: Contact Section (Stays Volcano)
       tlGlobal3D.to(group.position, { x: 0, y: isMobile ? -0.8 : 0.2, z: isMobile ? -1.5 : -5, ease: 'power2.inOut' });

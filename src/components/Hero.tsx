@@ -101,8 +101,23 @@ export const Hero = () => {
           animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
           transition={{ duration: 1, delay: 1.1, ease: [0.22, 1, 0.36, 1] }}
         >
-          Reduce cu până la <span className="text-[#FF4500] font-semibold">40%</span> pierderile energetice. Zero punți termice. Garanție <span className="text-white font-medium">20 de ani</span>.
+          O parte importantă din căldură se pierde prin radiație, pe care grosimea nu o oprește. thermX o reflectă într-un strat de <span className="text-white font-medium">1–3 mm</span>.
         </motion.p>
+
+        {/* Proof chips strip */}
+        <motion.div
+          className="flex flex-wrap items-center justify-center gap-2 mt-6"
+          style={{ y: subtitleY, opacity: subtitleOpacity }}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, delay: 1.35, ease: [0.22, 1, 0.36, 1] }}
+        >
+          {['reflexie 85%', 'economie până la 40%', 'λ 0,001 W/mK', 'garanție 20 de ani'].map((chip) => (
+            <span key={chip} className="px-4 py-1.5 rounded-full border border-white/10 bg-white/[0.04] text-sm font-semibold text-white/70 backdrop-blur-sm">
+              <span className="text-[#FF4500]">{chip.split(' ')[0]}</span>{' '}{chip.split(' ').slice(1).join(' ')}
+            </span>
+          ))}
+        </motion.div>
 
         {/* CTA — slowest parallax (stays longest) */}
         <motion.div
