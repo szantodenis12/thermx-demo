@@ -26,3 +26,6 @@ dist-ssr
 # Large files
 *.zip
 *.mp4
+!public/back-video.mp4
+!public/nanorevolution-backvideo.mp4
+!public/ThermX-TestGheata.mp4
