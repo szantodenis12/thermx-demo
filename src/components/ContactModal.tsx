@@ -21,12 +21,33 @@ export const ContactModal = ({ isOpen, onClose }: ContactModalProps) => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    // Simulate API request
-    await new Promise((resolve) => setTimeout(resolve, 1500));
+    try {
+      const response = await fetch('/api/send-email', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: formData.nume,
+          email: formData.email,
+          phone: formData.telefon,
+          message: formData.mesaj,
+        }),
+      });
 
-    setIsSubmitting(false);
-    setIsSuccess(true);
-    setFormData({ nume: '', email: '', telefon: '', mesaj: '' });
+      if (!response.ok) {
+        const errData = await response.json();
+        throw new Error(errData.error || 'Failed to send email');
+      }
+
+      setIsSuccess(true);
+      setFormData({ nume: '', email: '', telefon: '', mesaj: '' });
+    } catch (error) {
+      console.error('Email submission error:', error);
+      alert('A apărut o eroare la trimiterea mesajului. Te rugăm să încerci din nou sau să ne contactezi direct.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleClose = () => {

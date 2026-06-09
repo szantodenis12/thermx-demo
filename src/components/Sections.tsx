@@ -1,9 +1,8 @@
 import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
-import { useRef, type ReactNode, useEffect, useState } from 'react';
+import { useRef, type ReactNode, useEffect } from 'react';
 import { useScrollCtx } from '../App';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { Volume2, VolumeX } from 'lucide-react';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -345,27 +344,13 @@ export const ScienceSection = () => {
   );
 };
 
-// ═══════════════════════════════════════════════════
-// SECTION: Video Demonstration (Ice Test)
-// ═══════════════════════════════════════════════════
 export const VideoSection = () => {
-  const [isMuted, setIsMuted] = useState(true);
   const videoRef = useRef<HTMLVideoElement>(null);
 
-  const toggleMute = () => {
-    if (videoRef.current) {
-      videoRef.current.muted = !videoRef.current.muted;
-      setIsMuted(videoRef.current.muted);
-    }
-  };
-
   return (
-    <section className="relative w-full py-16 md:py-24 bg-[#0A0A0A] overflow-hidden flex items-center justify-center">
-      {/* Background glow matching the brand */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full bg-[#FF4500]/5 blur-[120px] pointer-events-none" />
-
-      <div className="max-w-5xl mx-auto px-6 w-full relative z-10">
-        <div className="relative aspect-video rounded-3xl overflow-hidden border border-white/10 shadow-[0_0_60px_rgba(255,69,0,0.12)] bg-black/40 group">
+    <section className="relative w-full py-12 md:py-20 bg-transparent flex items-center justify-center">
+      <div className="max-w-6xl mx-auto px-6 md:px-12 w-full relative z-10">
+        <div className="relative aspect-video rounded-3xl overflow-hidden border border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.5)]">
           <video
             ref={videoRef}
             src="/ThermX-TestGheata.mp4"
@@ -376,19 +361,6 @@ export const VideoSection = () => {
             playsInline
             preload="metadata"
           />
-          
-          {/* Subtle overlay hover effect */}
-          <div className="absolute inset-0 bg-black/10 group-hover:bg-black/0 transition-colors duration-500 pointer-events-none" />
-
-          {/* Clean Mute Toggle Overlay */}
-          <button
-            onClick={toggleMute}
-            className="absolute bottom-6 right-6 p-3 rounded-full bg-black/60 border border-white/10 text-white backdrop-blur-md
-                       hover:bg-white hover:text-black hover:scale-105 transition-all duration-300 shadow-lg cursor-pointer"
-            aria-label={isMuted ? "Unmute video" : "Mute video"}
-          >
-            {isMuted ? <VolumeX className="w-5 h-5" /> : <Volume2 className="w-5 h-5" />}
-          </button>
         </div>
       </div>
     </section>
